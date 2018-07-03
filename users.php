@@ -31,7 +31,23 @@ if(empty(@$_SESSION['user_name'])){
 </head>
 <body style="background-color:#083045;">
 	<?php include("header.php"); ?>
-	<?php include("sidebar.php"); ?>
-	<?php include("dashboard.php"); ?>
+	<?php
+
+	if(!empty($_GET['id'])){
+		$id=$_GET['id'];
+		if($id=="add")
+		{
+			include("addnew.php");
+		}
+		else  
+			echo 'Page not Found';
+	}else{
+		include('dashboard.php');   
+	} 
+
+	?>
+
+
+
 </body>
 </html>

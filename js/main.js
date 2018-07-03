@@ -16,7 +16,6 @@ $(document).ready(function() {
 
     });
 
-
 });
 
 function createTable(arr) {
