@@ -1,0 +1,130 @@
+.title-div {
+    font-size: 17px;
+    display: block;
+    margin-bottom: 20px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 680;
+}
+
+.login-form {
+    mid-width: 235px;
+}
+
+.login_btn {
+    float: left;
+}
+
+.h-user_logout span:hover {
+    opacity: 0.76;
+    cursor: pointer;
+}
+
+.register_btn {
+    float: right;
+}
+
+.header-container {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    background-color: #083045;
+    z-index: -99;
+}
+
+#header {
+    position: relative;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
+    margin-top: 15px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.h-title {
+    float: left;
+    margin-left: 30px;
+    font-family: 'Yatra One', cursive;
+    font-size: 20px;
+}
+
+.h-user-details {
+    float: right;
+    font-size: 15px;
+}
+
+.h-user-details div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 22vw;
+}
+
+.h-user_name {
+    align-self: center;
+}
+
+.h-user_logout {
+    align-self: center;
+}
+
+.sidebar {
+    position: fixed;
+    width: 200px;
+    top: 120px;
+    left: 100px;
+    bottom: 0px;
+    height:250px;
+    transition: 0.5s;
+    border: solid 1px #334f4c;
+}
+
+.ul ul {
+    list-style-type: none;
+    padding-left: 20px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.ul ul li {
+    color: #fee36d;
+    padding: 10px 0px;
+    font-size: 15px;
+    margin-right:20px;
+}
+
+.li-active {
+    color: #acb9c0!important;
+    cursor: unset!important;
+    background-color: initial!important;
+    
+}
+
+.ul ul li:hover {
+    background-color: #fee36d0a;
+    cursor: pointer;
+}
+
+.container-cate {
+   
+    padding-left: 20px;
+}
+.li-active .container-cate{
+   border-left: 2px solid yellow;
+    padding-left: 18px!important
+}
+.dashboard-container{
+  margin-top:120px;
+}
+.dashboard{
+  margin-left:340px;
+  margin-right:5%;
+  padding:15px 25px;
+  border: solid 1px #334f4c;
+  font-family: 'Asap', sans-serif;
+}
+.dashboard span{
+  color:#dee4e6;
+  line-height:1.5;
+  margin-top:10px;
+  display:inline-block;
+}
