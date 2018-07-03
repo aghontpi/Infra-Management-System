@@ -10,16 +10,38 @@
 	</div>
 	<div class="search-container">
 		<div class="search" id="category_selector">
-			<div><input type="text" name="search_field" id="search-field" placeholder="search-term"></div>
-			 <div><select name="What" placeholder="What?" id="what">
+			 <div><select name="What" id="what">
+			 	<option value="" disabled selected>What?</option>
     			<option value="user">Users</option>
     			<option value="device">Devices</option>
   			</select>
   			</div>	
 		</div>
 		<div class="search-go">
-			<span id="search_button"  name="search_btn" >Go</span>
+			<span id="search_button"  name="search_btn" onclick="dashboardDisplay()" >Go</span>
 		</div>
 	</div>
+	<div class="table_container" style="display: none">
+			<div class="data-table">
+			<table id="table_here" class="display hover" style="width:100%;">
+			<thead>
+            <tr>
+                <th>id</th>
+                <th>device_id</th>
+                <th>brand</th>
+                <th>device serial.</th>
+                <th>cpu</th>
+                <th>ram</th>
+                <th>charger serial</th>
+                <th>Hard Disk</th>
+                <th>model</th>
+                <th>os</th>
+                <th>used by</th>
+            </tr>
+        	</thead>
+			</table>
+
+			</div>
+		</div>
 	</div>
 </div>

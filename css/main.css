@@ -28,17 +28,18 @@
     width: 100%;
     top: 0px;
     background-color: #083045;
-    z-index: -99;
 }
 
 #header {
     position: relative;
     padding: 10px 30px;
     font-weight: bold;
+    background-color: #083045;
     font-size: 20px;
     color: #ffffff;
     margin-top: 15px;
     font-family: 'Nunito', sans-serif;
+    z-index:999;
 }
 
 .h-title {
@@ -133,6 +134,7 @@
 .search-container {
     margin-top: 30px;
     font-family: sans-serif;
+    margin-bottom:100px;
 }
 
 .search {
@@ -169,7 +171,7 @@
     margin-left: 340px;
 }
 
-#search-field,#what{
+#search-field,#what,#type,#table_here_filter input{
     width: 120px;
     height: 24px;
     border-radius: 3px;
@@ -182,4 +184,23 @@
 
 #search-field:focus {
     outline-color: #ada65f;
+}
+
+
+/*All table related css..pff*/
+.table_container{
+margin-top:30px;
+font-family:sans-serif;
+font-size:12px;
+;
+}
+.ui-widget-header{
+   border: solid 1px #334f4c!important;
+   background-color:#083045!important;
+   color:#dee4e6!important;
+}
+thead{
+  background: #000000!important;
+  font-weight: normal;
+  color: #c1c1c1!important;
 }
