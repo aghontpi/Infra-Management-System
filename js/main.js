@@ -16,6 +16,15 @@ $(document).ready(function() {
 
     });
 
+    // $("#update-submit").on('click',function(){
+    // 	$("#update-form")[0].reset();
+
+    // 	$("#update-form").unbind('submit').bind('submit',function(){
+    // 		var form = $(this);
+
+    // 	});
+    // });
+
 });
 
 function createTable(arr) {
@@ -39,6 +48,13 @@ function createTable(arr) {
             { "data": "os" },
             { "data": "used_by" }
 
+        ],
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
         ]
     });
 }
@@ -84,4 +100,37 @@ function getAttributes_to_add(){
 		$("#fields_container").empty();
 		$("#fields_container").append('<div class="base"><div><form id="survey-form" action="worker.php" method="post"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="Name-label">Name:</label> <input type="text" name="name" placeholder="Name" required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="Otherinfo-label">Other info:</label> <input type="text" name="other_info" placeholder="Extra Info" required> <br> <br> <button id="submit" name="btn_submit_device" class="btn-submit">Submit</button></form></div></div>');
 	}
+}
+
+function updateitemsDisplay(){
+	var temp = $("#device_update_select option:selected").val();
+    if (temp == "device_pc"){
+   	$('.table_container').show();
+   	var table = $('#table_here').DataTable({
+   		"ajax":{
+   			url:"worker.php",
+   			method:"post",
+   			data:{getdata_updatepage:1}
+   		}
+   	});
+    }
+}
+function updateToserver(){
+	console.log('clicked');
+	$("#update-form")[0].reset();
+	var formdata = $("#update-form");
+	$.ajax({
+		url:"worker.php",
+		method:"post",
+		data:{},
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+		}
+	});
+	return false;
+}
+
+function getDataUpdatePage(){
+
 }

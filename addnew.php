@@ -4,16 +4,16 @@
 			<ul>
 				<li >
 					<a href="users.php"><span class="container-cate">
-					DashBoard</a>
-					</span>
+					DashBoard
+					</span></a>
 				</li>
 				<li class="li-active" >
 					<a href="users.php?id=add"><span class="container-cate">
-					Add new Items</a>
-				</span></li>
-				<li><span class="container-cate">
-					Delete Items
-				</span></li>
+					Add new Items
+				</span></a></li>
+				<li><a href="users.php?id=update"><span class="container-cate">
+					Update Items
+				</span></a></li>
 				<li><span class="container-cate">
 					Loan Items
 				</span></li>

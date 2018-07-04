@@ -39,8 +39,12 @@ if(empty(@$_SESSION['user_name'])){
 		{
 			include("addnew.php");
 		}
-		else  
+		elseif ($id=="update") {
+			include("updateitems.php");
+		}
+		else {
 			echo 'Page not Found';
+		}
 	}else{
 		include('dashboard.php');   
 	} 

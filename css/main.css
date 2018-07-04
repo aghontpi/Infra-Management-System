@@ -171,7 +171,7 @@
     margin-left: 340px;
 }
 
-#search-field,#what,#type,#table_here_filter input,#addDevice{
+#search-field,#what,#type,#table_here_filter input,#addDevice, #device_update_select{
     width: 120px;
     height: 24px;
     border-radius: 3px;
@@ -239,4 +239,36 @@ font-size:12px;
     padding: 12px 27px;
     font-weight: bolder;
     margin-left: 42%;;
+}
+
+#update-form input{
+    width:120px;
+    padding-left: 4px;
+    border-radius: 4px;
+    border: 1px solid #c0c0c0;
+}
+
+#update-form label{
+    color:#f7f8f8;
+}
+
+.update-submit{
+    background-color: #eed369;
+    color: #505044;
+    border-radius: 5px;
+    border: 0px solid;
+    padding: 8px 18px;
+    font-weight: bolder;
+    margin-left:87%;
+}
+.container_update-values{
+    font-family:sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+    box-sizing: border-box;
+    width: 98%;
+}
+.container_update-values div{
+    width:284px;
 }
