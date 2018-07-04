@@ -30,10 +30,19 @@
 	<div class="overall-container">
 	<div class="dashboard">
 		<span>
-			There are two categorys. Choose pc or Other devices <br>
-		</span>
-		<span>
+			There are two categorys. Choose pc or Other devices <br><br>
+
 			Choose appropriate option then click on get field to further proceed.
+			
+			
+			<?php if(!empty(@$_SESSION['add_status'])):?>
+				<?php 
+				$ts = $_SESSION['add_status'];
+				unset($_SESSION['add_status']);	
+				?>
+				<br><br>
+				<span style="background-color: yellow; color: black;"><?php echo $ts; ?></span>
+			<?php endif; ?>    
 		</span>
 	</div>
 	<div class="search-container">
@@ -51,9 +60,7 @@
 	</div>
 	
 	<div id="fields_container">
-		<div>
-			
-		</div>
+
 	</div>
 
 	</div>

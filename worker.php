@@ -1,6 +1,16 @@
 <?php 
 session_start();
 include('Database.php');
+$hostname = 'localhost:3306';
+$username = 'root';
+$password = 'fighting?';
+$dbName = 'management';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_PERSISTENT => false,
+    PDO::ATTR_EMULATE_PREPARES => false,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
 
 if(isset($_POST["get_all_columns"])){
 	$dataBase = new DB;
@@ -17,6 +27,38 @@ if(isset($_POST["get_all_device_pc"])){
 	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
 	echo json_encode($temp_arr);
 }
+
+if(isset($_POST["btn_submit_pc"])){
+		try{
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$row = [
+		'dev_id'=>$_POST["device_id"],
+		'brand_'=>$_POST["brand"],
+		'serial_'=>$_POST["device_serial"],
+		'cpu_'=>$_POST["cpu"],
+		'ram_'=>$_POST["ram"],
+		'charger'=>$_POST["charger_serial"],
+		'hd_'=>$_POST["harddisk_capacity"],
+		'model_'=>$_POST["model"],
+		'os_'=>$_POST["os"]
+	];
+	echo "imhere";
+	$sqlstmt="INSERT INTO device_pc SET device_id=:dev_id, brand=:brand_, device_serial=:serial_,cpu=:cpu_, ram=:ram_, charger_serial_number=:charger, hard_disk_capacity=:hd_, model=:model_, os=:os_;";
+	$status = $pdo->prepare($sqlstmt)->execute($row);
+	}
+	catch (PDOException $e){
+		echo $e;
+	}
+	if ($status) {
+    $lastId = $pdo->lastInsertId();
+    header("Location: users.php?id=add");
+    $_SESSION['add_status'] = "Success! Insert Success";
+	}
+	else {
+		$_SESSION['add_status'] = "There was an error inserting.. troubleshoot!";
+	}
+}
+
 
 
  ?>
