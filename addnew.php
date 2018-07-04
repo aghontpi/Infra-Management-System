@@ -62,6 +62,4 @@
 	<div id="fields_container">
 
 	</div>
-
-	</div>
 </div>
