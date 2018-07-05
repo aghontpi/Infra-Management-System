@@ -27,12 +27,37 @@ if(isset($_POST["get_all_device_pc"])){
 	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
 	echo json_encode($temp_arr);
 }
+
+if(isset($_POST["updateid"])){
+	$id = $_POST["updateid"];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * FROM device_pc WHERE id = {$id}";
+	$qres=$pdo->query($stmt);
+	$res = $qres->fetch(PDO::FETCH_ASSOC);
+	echo json_encode($res);
+
+}
+
+if(isset($_POST["updateid_od"])){
+	$id = $_POST["updateid_od"];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * FROM device_other WHERE id = {$id}";
+	$qres=$pdo->query($stmt);
+	$res = $qres->fetch(PDO::FETCH_ASSOC);
+	echo json_encode($res);
+
+}
+
+
 if(isset($_POST["getdata_updatepage"])){
 	$response = array('data' => array());
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
 	$stmt = "SELECT id,device_id, brand, device_serial, cpu, ram, charger_serial_number, model, os from device_pc";
 	foreach ($pdo->query($stmt) as $row) {
+		$id = $row['id'];
+		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="getFieldsForUpdate('.$id.')">&#x2710;</span><span style="cursor:pointer" onclick="deleteFieldsForUpdate('.$id.')">&#x2717;</span>';
 		$response['data'][] = array(
+			$row['id'],
 			$row['device_id'],
 			$row['brand'],
 			$row['device_serial'],
@@ -40,15 +65,121 @@ if(isset($_POST["getdata_updatepage"])){
 			$row['ram'],
 			$row['charger_serial_number'],
 			$row['model'],
-			$row['os']
+			$row['os'],
+			$editicon
 		);
 	}
 	echo json_encode($response);
 }
 
-if(isset($_POST["updaterow"])){
-	echo "im triggered" . "id=" .$_POST["device_id"];
+if(isset($_POST["deleteid_od"])){
+	$id = $_POST["deleteid_od"];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "DELETE FROM device_other WHERE id = {$id}";
+	if($pdo->query($stmt)){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
 }
+
+if(isset($_POST["getdata_updatepage_od"])){
+	$response = array('data' => array());
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * from device_other";
+	foreach ($pdo->query($stmt) as $row) {
+		$id = $row['id'];
+		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="getFieldsForUpdate_od('.$id.')">&#x2710;</span><span style="cursor:pointer" onclick="deleteFieldsForUpdate_od('.$id.')">&#x2717;</span>';
+		$response['data'][] = array(
+			$row['id'],
+			$row['device_id'],
+			$row['name'],
+			$row['serial'],
+			$row['brand'],
+			$row['other_info'],
+			$editicon
+		);
+	}
+	echo json_encode($response);
+}
+
+
+
+
+
+
+
+if(isset($_POST["deleteid"])){
+	$id = $_POST["deleteid"];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "DELETE FROM device_pc WHERE id = {$id}";
+	if($pdo->query($stmt)){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
+}
+
+if(isset($_POST["updaterow"])){
+	$row=[
+	'tochange'=>$_POST["id_seq"],
+	'd_id'=>$_POST["device_id"],
+	'brand'=>$_POST["brand"],
+	'd_serial'=>$_POST["device_serial"],
+	'cpu'=>$_POST["cpu"],
+	'ram'=>$_POST["ram"],
+	'ch_serial'=>$_POST["charger_serial"],
+	'hd'=>$_POST["harddisk_capacity"],
+	'model'=>$_POST["model"],
+	'os'=>$_POST["os"]
+];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "UPDATE device_pc SET device_id=:d_id, brand =:brand, device_serial =:d_serial, cpu =:cpu, ram =:ram, charger_serial_number =:ch_serial, hard_disk_capacity =:hd, model =:model, os =:os WHERE id =:tochange;";
+	$status = $pdo->prepare($stmt)->execute($row);
+	if($status){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
+
+}
+
+
+if(isset($_POST["updaterow_"])){
+	$row=[
+	'tochange'=>$_POST["id_seq"],
+	'd_id'=>$_POST["device_id"],
+	'brand'=>$_POST["brand"],
+	'd_serial'=>$_POST["device_serial"],
+	'name'=>$_POST["name"],
+	'othinf'=>$_POST["other_info"]
+];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "UPDATE device_other SET device_id=:d_id, brand =:brand, serial =:d_serial, other_info =:othinf, name =:name WHERE id =:tochange;";
+	try {
+		$status = $pdo->prepare($stmt)->execute($row);
+	} catch (Exception $e) {
+		$status=0;
+	}
+	
+	if($status){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
+
+}
+
+
+
 if(isset($_POST["btn_submit_pc"])){
 	try{
 		$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
@@ -67,7 +198,9 @@ if(isset($_POST["btn_submit_pc"])){
 		$status = $pdo->prepare($sqlstmt)->execute($row);
 	}
 	catch (PDOException $e){
-		echo $e;
+		$status =false;
+		header("Location: users.php?id=add");
+		$_SESSION['add_status'] = "There was an error inserting.. troubleshoot! <br> Most probably device id was not unique!";
 	}
 	if ($status) {
 		$lastId = $pdo->lastInsertId();
@@ -97,7 +230,9 @@ if(isset($_POST["btn_submit_device"])){
 		$status = $pdo->prepare($sqlstmt)->execute($row);
 	}
 	catch (PDOException $e){
-		echo $e;
+		$status =false;
+		header("Location: users.php?id=add");
+		$_SESSION['add_status'] = "There was an error inserting.. troubleshoot! <br> Most probably device id was not unique!";
 	}
 	if ($status) {
 		$lastId = $pdo->lastInsertId();

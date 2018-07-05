@@ -11,7 +11,7 @@
 					Add new Items
 				</span></a></li>
 				<li><a href="users.php?id=update"><span class="container-cate">
-					Update Items
+					Edit/Update Items
 				</span></a></li>
 				<li><span class="container-cate">
 					Loan Items

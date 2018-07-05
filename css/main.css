@@ -259,7 +259,7 @@ font-size:12px;
     border: 0px solid;
     padding: 8px 18px;
     font-weight: bolder;
-    margin-left:87%;
+    margin-left:47%;
 }
 .container_update-values{
     font-family:sans-serif;
@@ -268,7 +268,9 @@ font-size:12px;
     text-align: right;
     box-sizing: border-box;
     width: 98%;
+    justify-content: space-around;
 }
 .container_update-values div{
-    width:284px;
+    width:240px;
+    margin-bottom:10px;
 }

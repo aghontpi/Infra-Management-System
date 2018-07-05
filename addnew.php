@@ -12,7 +12,7 @@
 					Add new Items
 				</span></a></li>
 				<li><a href="users.php?id=update"><span class="container-cate">
-					Update Items
+					Edit/Update Items
 				</span></a></li>
 				<li><span class="container-cate">
 					Loan Items
@@ -30,17 +30,17 @@
 	<div class="overall-container">
 	<div class="dashboard">
 		<span>
+			<?php if(empty(@$_SESSION['add_status'])):?>
 			There are two categorys. Choose pc or Other devices <br><br>
 
 			Choose appropriate option then click on get field to further proceed.
-			
+			<?php endif; ?> 
 			
 			<?php if(!empty(@$_SESSION['add_status'])):?>
 				<?php 
 				$ts = $_SESSION['add_status'];
 				unset($_SESSION['add_status']);	
 				?>
-				<br><br>
 				<span style="background-color: yellow; color: black;"><?php echo $ts; ?></span>
 			<?php endif; ?>    
 		</span>
