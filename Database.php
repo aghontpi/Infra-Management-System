@@ -35,5 +35,12 @@ class DB
 	    $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		return $stmt; 
 	}
+	public function getNumberPendingAccounts(){
+			$sql ="SELECT COUNT(verified) FROM users WHERE verified = 0";
+			$stmt = $this->dbh->query($sql);
+  			$fetchres = $stmt->fetch();
+  			$result = $fetchres["COUNT(verified)"];
+  			return $result;
+	}
 }
 ?>

@@ -115,12 +115,12 @@ else if(temp == "device_other"){
 			"visible": false,
 			"searchable": false
 		},		
-			{	targets:'_all',
-				className:"dt-body-center"
-			}
-		]
+		{	targets:'_all',
+		className:"dt-body-center"
+	}
+	]
 
-	});
+});
 }
 }
 
@@ -341,6 +341,12 @@ function updateToserver_od(){
 function updateToserver_od_loan(){
 	var formdata = $("#update-form");
 	//debugger;
+	var a = $('#usd3').val();
+	var b = $('#usd4').val();
+	if(a!==b){
+		alert("Fields doesnt not match");
+		return false;
+	}
 	var submitdata = 'updaterow_loan_od=1&'
 	submitdata += formdata.serialize();
 	console.log(submitdata);
@@ -389,7 +395,7 @@ function getFieldsForUpdate_od_loan(id){
 		dataType:"json",
 		success:function(data){
 			console.log(data);
-			$("#dashboard-add").empty().append('<br> <br><div><form id="update-form"><div class="container_update-values"><div> <label id="usedby-label">used_by:</label> <input type="text" name="used_by" id="device-used_by" value="'+data.used_by+'"></div><div> <input type="hidden" value="'+data.id+'" name="id_seq" /></div></div> <button id="update-submit" onclick="return updateToserver_od_loan()" class="update-submit">update</button></form></div>');
+			$("#dashboard-add").empty().append('<span>For confirmation you need to type twice</span> <br><br><br><div><form id="update-form"><div class="container_update-values"><div> <label id="usedby-label">used_by:</label> <input type="text" name="used_by" id="usd4" value="'+data.used_by+'"></div><div><label>Type Again:</label> <input type="text" name="used_by" id="usd3"></div><div> <input type="hidden" value="'+data.id+'" name="id_seq" /></div></div> <button id="update-submit" onclick="return updateToserver_od_loan()" class="update-submit">update</button></form></div>');
 		}
 	});
 

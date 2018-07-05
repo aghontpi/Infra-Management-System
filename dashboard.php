@@ -1,3 +1,19 @@
+<?php 
+
+
+if(empty(@$_SESSION['user_name'])){   
+	ob_start();
+    header("Location: index.php");
+    ob_end_flush();
+    die();
+}
+
+
+
+
+ ?>
+
+
 <div class="sidebar">
 	<div class="ul-container">
 		<div class="ul" >
@@ -5,7 +21,7 @@
 				<li class="li-active">
 					<a href="users.php"><span class="container-cate">
 						DashBoard
-					</span></a>
+					</span><span class="approve-users" id="approve_count"><?php echo "<span>" .$count. "</span>" ?></span></a>
 				</li>
 				<li ><a href="users.php?id=add"><span class="container-cate">
 					Add new Items
@@ -34,7 +50,7 @@
 				This is the admin dashboard, here you can view and approve new reqistrations, view current items that are loned for employees and search for an item based on category.<br>
 			</span>
 			<span>
-				New user registrations to approve :
+				New user registrations to approve : <?php echo "<span> " .$count. "</span>" ?>
 			</span>
 		</div>
 		<div class="search-container">

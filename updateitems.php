@@ -1,3 +1,17 @@
+<?php 
+
+
+if(empty(@$_SESSION['user_name'])){   
+	ob_start();
+    header("Location: index.php");
+    ob_end_flush();
+    die();
+}
+
+
+ ?>
+
+
 <div class="sidebar">
 	<div class="ul-container">
 		<div class="ul" >
@@ -5,7 +19,7 @@
 				<li >
 					<a href="users.php"><span class="container-cate">
 						DashBoard
-					</span></a>
+					</span><span class="approve-users" id="approve_count"><?php echo "<span>" .$count. "</span>" ?></span></a>
 				</li>
 				<li ><a href="users.php?id=add"><span class="container-cate">
 					Add new Items

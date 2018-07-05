@@ -20,35 +20,48 @@ if(isset($_POST["login"])){
 }
 
 function checkuser($temp,$pd,$un){
-$temp_arr = $temp->fetchall(PDO::FETCH_ASSOC);
-if(count($temp_arr)==0){
-	$_SESSION['error'] = "User Name or Password Error";
-}
-else{
-	$some = $temp_arr[0]['pwd'];
+    $temp_arr = $temp->fetchall(PDO::FETCH_ASSOC);
+    if(count($temp_arr)==0){
+     $_SESSION['error'] = "User Name or Password Error";
+ }
+ else{
+     $some = $temp_arr[0]['pwd'];
 	//echo password_verify($pd,$some)? 'true' : 'false' ;
-	if(password_verify($pd,$some)){
-		unset($_SESSION["error"]);	
-		$_SESSION['user_name'] = $temp_arr[0]['user_name'];
-        $dataBase = new DB;
-        date_default_timezone_set('Asia/Kolkata');
-        $my_date = date("Y-m-d H:i:s");
-        $sqlInsert = "UPDATE users SET last_login='$my_date' WHERE user_name = '{$_SESSION['user_name']}'";
-        $dataBase->runQuery($sqlInsert);
-		ob_start();
-		header("Location: users.php");
-		ob_end_flush();
-		die();
-	}
-	else{
-		$_SESSION['error'] = "User Name or Password Error";
-	}
-	
-}
+     if(password_verify($pd,$some)){
+        $uname = $temp_arr[0]['user_name'];
+        //check ifactivated by admin
+        $check = new DB;
+        $sql="SELECT verified FROM users WHERE user_name = '{$uname}'";
+        $data = $check->getQuery($sql);
+        $data = $data->fetchall(PDO::FETCH_ASSOC);
+        $account_status = $data[0]['verified'];
+        if($account_status){
+            unset($_SESSION["error"]);  
+            $_SESSION['user_name'] = $uname;
+            $dataBase = new DB;
+            date_default_timezone_set('Asia/Kolkata');
+            $my_date = date("Y-m-d H:i:s");
+            $sqlInsert = "UPDATE users SET last_login='$my_date' WHERE user_name = '{$_SESSION['user_name']}'";
+            $dataBase->runQuery($sqlInsert);
+            ob_start();
+            header("Location: users.php");
+            ob_end_flush();
+            die();
+        }
+        else{
+            $_SESSION['error'] = "101";
+        }
+
+    }
+    else{
+      $_SESSION['error'] = "100";
+  }
 
 }
 
- ?>
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,27 +85,33 @@ else{
                             <span class="title-div">Infra Management Sys</span>
                             <div class="row">
                                 <div class="column">
-                           		<?php if(!empty(@$_SESSION['error'])): ?>
-    							<div style="background-color: yellow">
-        						<strong><center>Username or password is incorrect!</center></strong>
-    							</div>
-								<?php endif; ?>    
-                                    <label for="uid">UserName</label>
-                                    <input type="text" name="username" id="uid" class="u-full-width" required="true">
-                                    <label for="pwd">Password</label>
-                                    <input type="password" id="pwd" class="u-full-width" name="password" required="true">
-                                    <div class="btns">
-                                    	<div class="login_btn"><input type="submit" name ="login" class="button-primary" value="Login"></div>
-                                    	<div class="register_btn"><input type="button" onclick="window.location='register.php'" value="Register"></div>
-                                    </div>                                                             
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                                 <?php if(!empty(@$_SESSION['error']) && @$_SESSION['error'] =="100"): ?>
+                                   <div style="background-color: yellow">
+                                      <strong><center>Username or password is incorrect!</center></strong>
+                                  </div>
+                              <?php endif; ?>  
+                              <div class="column">
+                                 <?php if(!empty(@$_SESSION['error']) && @$_SESSION['error'] =="101"): ?>
+                                   <div style="background-color: red">
+                                      <strong><center>Account not activated by admin yet!</center></strong>
+                                  </div>
+                              <?php endif; ?>    
+                              <label for="uid">UserName</label>
+                              <input type="text" name="username" id="uid" class="u-full-width" required="true">
+                              <label for="pwd">Password</label>
+                              <input type="password" id="pwd" class="u-full-width" name="password" required="true">
+                              <div class="btns">
+                                 <div class="login_btn"><input type="submit" name ="login" class="button-primary" value="Login"></div>
+                                 <div class="register_btn"><input type="button" onclick="window.location='register.php'" value="Register"></div>
+                             </div>                                                             
+                         </div>
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+</div>
 </body>
 
 </html>

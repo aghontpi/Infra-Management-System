@@ -8,8 +8,9 @@ if(empty(@$_SESSION['user_name'])){
     ob_end_flush();
     die();
 }
+$db =  new DB;
+$count = $db->getNumberPendingAccounts();
 
-//echo "welcome " .  $_SESSION['user_name']; 
 
 ?>
 <!DOCTYPE html>

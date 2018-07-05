@@ -23,6 +23,10 @@
     float: right;
 }
 
+.column{
+    margin-left:0px;
+}
+
 .header-container {
     position: fixed;
     width: 100%;
@@ -282,4 +286,19 @@ font-size:12px;
 }
 .update-submit:hover{
     opacity:0.80;
+}
+
+.approve-users{
+    background-color: yellow;
+    width: 22px;
+    height: 21px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.approve-users span{
+    font-weight: 600;
+    font-size: 13px;
+    color: #131e36;
 }

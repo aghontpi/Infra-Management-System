@@ -1,3 +1,15 @@
+<?php 
+
+if(empty(@$_SESSION['user_name'])){   
+	ob_start();
+    header("Location: index.php");
+    ob_end_flush();
+    die();
+}
+
+
+ ?>
+
 <div class="header-container">
  	<header id="header">
  		<div class="h-title">
