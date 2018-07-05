@@ -274,3 +274,12 @@ font-size:12px;
     width:240px;
     margin-bottom:10px;
 }
+.td-limit {
+    max-width: 70px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.update-submit:hover{
+    opacity:0.80;
+}

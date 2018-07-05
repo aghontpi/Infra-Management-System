@@ -42,6 +42,10 @@ if(empty(@$_SESSION['user_name'])){
 		elseif ($id=="update") {
 			include("updateitems.php");
 		}
+		elseif ($id=="loan") {
+			include("loanitems.php");
+		}
+
 		else {
 			echo 'Page not Found';
 		}

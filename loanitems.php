@@ -10,10 +10,10 @@
 				<li ><a href="users.php?id=add"><span class="container-cate">
 					Add new Items
 				</span></a></li>
-				<li class="li-active"><a href="users.php?id=update"><span class="container-cate">
+				<li ><a href="users.php?id=update"><span class="container-cate">
 					Edit/Update Items
 				</span></a></li>
-				<li> <a href="users.php?id=loan"><span class="container-cate">
+				<li class="li-active"><a href="users.php?id=loan"><span class="container-cate">
 					Loan Items
 				</span></a></li>
 				<li><span class="container-cate">
@@ -30,14 +30,12 @@
 <div class="dashboard-container">
 	<div class="overall-container">
 		<div class="dashboard"  id="dashboard-add"">
-			<br>
+			
 			<span>
-				Here you can update the items present on the database with ease, just select your requirements and click go button then proceed from there on. ...thanks!
+				Assign computer/lap and other devices to user id here.
 			</span>
 			<br>
-			<span>You can update from two tables just choose what is your necessary table.. (computer-lap/other devices)</span>
-			<br>
-			<span>and finally... use the delete option with caution. it permenently deletes it</span>
+			<span>Just choose the nessary category!.</span>
 
 		</div>
 		<div class="search-container">
@@ -50,7 +48,7 @@
 			</div>	
 		</div>
 		<div class="search-go">
-			<span id="search_button"  name="search_btn" onclick="updateitemsDisplay()" >Go</span>
+			<span id="search_button"  name="search_btn" onclick="updateitemsDisplay_loan()" >Go</span>
 		</div>
 	</div>
 	<div class="table_container" style="display: none">

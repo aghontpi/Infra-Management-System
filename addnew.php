@@ -14,9 +14,9 @@
 				<li><a href="users.php?id=update"><span class="container-cate">
 					Edit/Update Items
 				</span></a></li>
-				<li><span class="container-cate">
+				<li><a href="users.php?id=load"><span class="container-cate">
 					Loan Items
-				</span></li>
+				</span></a></li>
 				<li><span class="container-cate">
 					Approve users
 				</span></li>

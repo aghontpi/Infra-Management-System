@@ -27,9 +27,24 @@ if(isset($_POST["get_all_device_pc"])){
 	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
 	echo json_encode($temp_arr);
 }
-
+if(isset($_POST["get_all_device_od"])){
+	$dataBase = new DB;
+	$alldata = "SELECT * FROM device_other";
+	$data = $dataBase->getQuery($alldata);
+	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
+	echo json_encode($temp_arr);
+}
 if(isset($_POST["updateid"])){
 	$id = $_POST["updateid"];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * FROM device_pc WHERE id = {$id}";
+	$qres=$pdo->query($stmt);
+	$res = $qres->fetch(PDO::FETCH_ASSOC);
+	echo json_encode($res);
+
+}
+if(isset($_POST["updateid_loan"])){
+	$id = $_POST["updateid_loan"];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
 	$stmt = "SELECT * FROM device_pc WHERE id = {$id}";
 	$qres=$pdo->query($stmt);
@@ -71,7 +86,26 @@ if(isset($_POST["getdata_updatepage"])){
 	}
 	echo json_encode($response);
 }
-
+if(isset($_POST["getdata_updatepage_loan"])){
+	$response = array('data' => array());
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * from device_pc";
+	foreach ($pdo->query($stmt) as $row) {
+		$id = $row['id'];
+		$editicon = '<span style="cursor:pointer;" onclick="getFieldsForUpdate_loan('.$id.')">&#x2692;';
+		$response['data'][] = array(
+			$row['id'],
+			$row['device_id'],
+			$row['brand'],
+			$row['device_serial'],
+			$row['charger_serial_number'],
+			$row['model'],
+			$row['used_by'],
+			$editicon
+		);
+	}
+	echo json_encode($response);
+}
 if(isset($_POST["deleteid_od"])){
 	$id = $_POST["deleteid_od"];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
@@ -106,7 +140,25 @@ if(isset($_POST["getdata_updatepage_od"])){
 }
 
 
-
+if(isset($_POST["getdata_updatepage_od_loan"])){
+	$response = array('data' => array());
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT * from device_other";
+	foreach ($pdo->query($stmt) as $row) {
+		$id = $row['id'];
+		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="getFieldsForUpdate_od_loan('.$id.')">&#x2692;';
+		$response['data'][] = array(
+			$row['id'],
+			$row['device_id'],
+			$row['name'],
+			$row['serial'],
+			$row['brand'],
+			$row['used_by'],
+			$editicon
+		);
+	}
+	echo json_encode($response);
+}
 
 
 
@@ -150,6 +202,23 @@ if(isset($_POST["updaterow"])){
 
 }
 
+if(isset($_POST["updaterow_loan"])){
+	$row=[
+	'tochange'=>$_POST["id_seq"],
+	'usby'=>$_POST["used_by"]
+];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "UPDATE device_pc SET used_by=:usby WHERE id =:tochange;";
+	$status = $pdo->prepare($stmt)->execute($row);
+	if($status){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
+
+}
 
 if(isset($_POST["updaterow_"])){
 	$row=[
@@ -177,6 +246,29 @@ if(isset($_POST["updaterow_"])){
 	}
 
 }
+if(isset($_POST["updaterow_loan_od"])){
+	$row=[
+	'tochange'=>$_POST["id_seq"],
+	'usby'=>$_POST["used_by"]
+];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "UPDATE device_other SET used_by=:usby WHERE id =:tochange;";
+	try {
+		$status = $pdo->prepare($stmt)->execute($row);
+	} catch (Exception $e) {
+		$status=0;
+	}
+	
+	if($status){
+		echo 1;
+	}
+	else
+	{
+		echo 0;
+	}
+
+}
+
 
 
 
