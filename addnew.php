@@ -28,7 +28,7 @@ if(empty(@$_SESSION['user_name'])){
 				<li><a href="users.php?id=update"><span class="container-cate">
 					Edit/Update Items
 				</span></a></li>
-				<li><a href="users.php?id=load"><span class="container-cate">
+				<li><a href="users.php?id=loan"><span class="container-cate">
 					Loan Items
 				</span></a></li>
 				<li><a href="users.php?id=verify"><span class="container-cate">
