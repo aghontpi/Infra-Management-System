@@ -46,7 +46,9 @@ $count = $db->getNumberPendingAccounts();
 		elseif ($id=="loan") {
 			include("loanitems.php");
 		}
-
+		elseif ($id=="verify"){
+			include("activateusers.php");
+		}
 		else {
 			echo 'Page not Found';
 		}

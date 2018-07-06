@@ -6,8 +6,13 @@ var table_update_del_other_device = 0;
 let sql = "select * from ";
 const loading_img = '<div style="margin-left:47%;" ><img src="loading.gif" border-radius="50%"</div>';
 
-$(document).ready(function() {  
-
+$(document).ready(function() { 
+	$("#users_db").click(()=>{
+		if(global_limt==0){
+			$("#category_selector").append('<div><select id="todo"><option value="1">activate</option><option value="2">Reject</option> </select></div>');
+			global_limt++;
+		}
+	});
 });
 
 function createTable() {
@@ -125,15 +130,15 @@ else if(temp == "device_other"){
 }
 
 function getAttributes_to_add(){
-	var temp = $("#addDevice option:selected").val();
-	if(temp == "pc"){
-		$("#fields_container").empty();
-		$("#fields_container").append('<div class="base"><div><form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="cpu-label">Cpu:</label> <input type="text" name="cpu" placeholder="CPU" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial" placeholder="Charger Serial(Unique)" > <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button></form></div></div>');	
-	}
-	else if(temp =="device"){
-		$("#fields_container").empty();
-		$("#fields_container").append('<div class="base"><div><form id="survey-form" action="worker.php" method="post"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="Name-label">Name:</label> <input type="text" name="name" placeholder="Name" required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="Otherinfo-label">Other info:</label> <input type="text" name="other_info" placeholder="Extra Info" required> <br> <br> <button id="submit" name="btn_submit_device" class="btn-submit">Submit</button></form></div></div>');
-	}
+var temp = $("#addDevice option:selected").val();
+if(temp == "pc"){
+	$("#fields_container").empty();
+	$("#fields_container").append('<div class="base"><div><form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="cpu-label">Cpu:</label> <input type="text" name="cpu" placeholder="CPU" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial" placeholder="Charger Serial(Unique)" > <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button></form></div></div>');	
+}
+else if(temp =="device"){
+	$("#fields_container").empty();
+	$("#fields_container").append('<div class="base"><div><form id="survey-form" action="worker.php" method="post"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="Name-label">Name:</label> <input type="text" name="name" placeholder="Name" required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="Otherinfo-label">Other info:</label> <input type="text" name="other_info" placeholder="Extra Info" required> <br> <br> <button id="submit" name="btn_submit_device" class="btn-submit">Submit</button></form></div></div>');
+}
 }
 //table.destroy();
 
@@ -212,7 +217,7 @@ function updateitemsDisplay(){
 function updateToserver(){
 	var formdata = $("#update-form");
 	//debugger;
-	var submitdata = 'updaterow=1&'
+	var submitdata = 'updaterow=1&';
 	submitdata += formdata.serialize();
 	console.log(submitdata);
 	$("#dashboard-add").empty().append(loading_img);
@@ -494,5 +499,78 @@ function updateitemsDisplay_loan(){
 		}
 		]
 	});
+	}
+}
+
+
+function getUsersList(){
+
+	$.ajax({
+		url:"worker.php",
+		method:"post",
+		data:{"getRegisteredUsers":1},
+		dataType:"json",
+		beforeSend:(x)=>{
+			$("#users_db").html("<option> loading ... </option>");
+		},
+		success:(x)=>{
+			$("#users_db").empty().append('<option value="" disabled selected>users</option>');
+			for(a in x){
+				$("#users_db").append('<option value="'+x[a]['user_name']+'">'+x[a]['user_name'] +'</option>')
+			}	
+		}
+	});
+}
+
+
+
+function manageUsersFunc(){
+	var user = $('#users_db').val();
+	var selected = $('#todo').val();
+	if(selected ==1){
+		if(confirm("Are you sure to activate" + " '"+user+"'<= this user? "))
+		{
+
+			$.ajax({
+				url:"worker.php",
+				method:"post",
+				data:"userapprovestatus="+selected+"&user="+user,
+				dataType:"json",
+				success:(x)=>{
+					if(x==1){
+						alert('user Approved');	
+						getUsersList();			
+					}
+					else{
+						alert('There was an error processing the request! debug!!')
+					}
+				}
+			});
+		}
+		else{
+			console.log('cancelled!');
+		}
+	}
+	else if(selected ==2){
+		if(confirm("Are you sure to reject" + " '"+user+"'<= this user? ")){
+			$.ajax({
+				url:"worker.php",
+				method:"post",
+				data:"userapprovestatus="+selected+"&user="+user,
+				dataType:"json",
+				success:(x)=>{
+					if(x==1){
+						alert('user Rejected!');	
+						getUsersList();			
+					}
+					else{
+						alert('There was an error processing the request! debug!!')
+					}
+				}
+			});
+		}
+		else{
+			console.log('rejcted!!');
+		}
 	}
 }

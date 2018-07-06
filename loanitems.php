@@ -33,9 +33,9 @@ if(empty(@$_SESSION['user_name'])){
 				<li class="li-active"><a href="users.php?id=loan"><span class="container-cate">
 					Loan Items
 				</span></a></li>
-				<li><span class="container-cate">
+				<li><a href="users.php?id=verify"><span class="container-cate">
 					Approve users
-				</span></li>
+				</span></a></li>
 			</ul>
 		</div>
 	</div>

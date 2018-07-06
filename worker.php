@@ -53,6 +53,14 @@ if(isset($_POST["updateid_loan"])){
 
 }
 
+if(isset($_POST["getRegisteredUsers"])){
+	$sql="SELECT user_name FROM users WHERE verified= 0";
+	$db = new DB;
+	$data = $db->getQuery($sql);
+	$arr = $data->fetchall(PDO::FETCH_ASSOC);
+	echo json_encode($arr);
+}
+
 if(isset($_POST["updateid_od"])){
 	$id = $_POST["updateid_od"];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
@@ -61,6 +69,34 @@ if(isset($_POST["updateid_od"])){
 	$res = $qres->fetch(PDO::FETCH_ASSOC);
 	echo json_encode($res);
 
+}
+
+if(isset($_POST["userapprovestatus"])){
+	$status = $_POST["userapprovestatus"];
+	$user = $_POST["user"];
+	$response = "";
+	if($status==1){
+		$db = new DB;
+		$db->grantPermission($status,$user);
+		if($db){
+			echo 1;
+		}
+		else{
+			echo 0;
+		}
+
+		
+	}
+	elseif ($status==2) {
+		$db = new DB;
+		$db-> deleteUser($user);
+		if($db){
+			echo 1;
+		}
+		else{
+			echo 0;
+		}
+	}
 }
 
 

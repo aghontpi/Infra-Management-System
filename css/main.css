@@ -302,3 +302,11 @@ font-size:12px;
     font-size: 13px;
     color: #131e36;
 }
+
+#users_db,#todo{
+    width: 135px;
+    height: 24px;
+    border-radius: 3px;
+    padding-left: 5px;
+    border:0px;
+}

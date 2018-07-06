@@ -8,12 +8,10 @@ class DB
 	public $dbh = NULL;
 
 	public function __construct() {
-		try
-		{
+		try{
 			$this->dbh = new PDO("mysql:host=$this->hostname;dbname=$this->dbName", $this->username, $this->password);		
 		}
-		catch(PDOException $e)
-		{
+		catch(PDOException $e){
 			echo __LINE__.$e->getMessage();
 		}
 	}
@@ -21,12 +19,10 @@ class DB
 		$this->dbh = NULL;
 	}
 	public function runQuery($sql){
-		try
-		{
+		try{
 			$count = $this->dbh->exec($sql) or print_r($this->dbh->errorInfo());
 		}
-		catch(PDOException $e)
-		{
+		catch(PDOException $e){
 			echo __LINE__.$e->getMessage();
 		}
 	}
@@ -41,6 +37,32 @@ class DB
   			$fetchres = $stmt->fetch();
   			$result = $fetchres["COUNT(verified)"];
   			return $result;
+	}
+
+	public function grantPermission($todo, $user){
+		$sql  = "UPDATE users SET verified =:todo WHERE user_name=:user";
+		$query = $this->dbh->prepare($sql);
+		$query->bindValue(":todo",$todo);
+		$query->bindValue(":user",$user);
+		try{
+			$res= $query->execute();
+		}
+		catch (PDOException $e){
+			echo $e;
+		}
+		return $res;
+	}
+	public function deleteUser($user){
+		$sql = "DELETE FROM users WHERE user_name =:user";
+		$query = $this->dbh->prepare($sql);
+		$query -> bindValue(":user",$user);
+		try{
+			$result= $query->execute();
+		}
+		catch (PDOException $e){
+			echo $e;
+		}
+		return $result;
 	}
 }
 ?>

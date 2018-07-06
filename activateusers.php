@@ -3,13 +3,13 @@
 
 if(empty(@$_SESSION['user_name'])){   
 	ob_start();
-    header("Location: index.php");
-    ob_end_flush();
-    die();
+	header("Location: index.php");
+	ob_end_flush();
+	die();
 }
 
 
- ?>
+?>
 
 
 <div class="sidebar">
@@ -24,13 +24,13 @@ if(empty(@$_SESSION['user_name'])){
 				<li ><a href="users.php?id=add"><span class="container-cate">
 					Add new Items
 				</span></a></li>
-				<li class="li-active"><a href="users.php?id=update"><span class="container-cate">
+				<li><a href="users.php?id=update"><span class="container-cate">
 					Edit/Update Items
 				</span></a></li>
 				<li> <a href="users.php?id=loan"><span class="container-cate">
 					Loan Items
 				</span></a></li>
-				<li><a href="users.php?id=verify"><span class="container-cate">
+				<li class="li-active"> <a href="users.php?id=verify"><span class="container-cate">
 					Approve users
 				</span></a></li>
 			</ul>
@@ -46,34 +46,34 @@ if(empty(@$_SESSION['user_name'])){
 		<div class="dashboard"  id="dashboard-add"">
 			<br>
 			<span>
-				Here you can update the items present on the database with ease, just select your requirements and click go button then proceed from there on. ...thanks!
+				Hello! This page allows to activate accounts of new users! U HAVE THE POWER!! <br>
+				But <b><i>only</i> 'admin'</b> can activate user accounts.. 
 			</span>
 			<br>
-			<span>You can update from two tables just choose what is your necessary table.. (computer-lap/other devices)</span>
-			<br>
-			<span>and finally... use the delete option with caution. it permenently deletes it</span>
+			<?php if(@$_SESSION['user_name'] !="admin"): ?>
+			<span><b>EDITING OPTIONS ARE ENABLED AND SHOWN ONLY TO 'admin' ACCOUNT</b></span>
+			<?php endif; ?> 
 
 		</div>
+		<?php if(@$_SESSION['user_name'] =="admin"): ?>
 		<div class="search-container">
 			<div class="search" id="category_selector">
-				<div><select name="update_select" id="device_update_select">
-					<option value="" disabled selected>What?</option>
-					<option value="device_pc">Device PC</option>
-					<option value="other_device">Other Devices</option>
+				<div><select name="users" id="users_db">
+					<option value="" disabled selected>users</option>
+					<script>$(document).ready(()=>{getUsersList();})</script>
 				</select>
 			</div>	
 		</div>
 		<div class="search-go">
-			<span id="search_button"  name="search_btn" onclick="updateitemsDisplay()" >Go</span>
+			<span id="search_button"  name="search_btn" onclick="manageUsersFunc()" >Go</span>
 		</div>
 	</div>
+	<?php endif; ?> 
 	<div class="table_container" style="display: none">
 		<div class="data-table">
 			<table id="table_here" class="display" style="width:100%;">
-
+				
 			</table>
-
 		</div>
 	</div>
-</div>
 </div>
