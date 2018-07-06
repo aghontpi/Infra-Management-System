@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include('Database.php');
 $hostname = 'localhost:3306';
 $username = 'root';
