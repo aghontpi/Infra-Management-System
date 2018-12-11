@@ -175,7 +175,7 @@
     margin-left: 340px;
 }
 
-#search-field,#what,#type,#table_here_filter input,#addDevice, #device_update_select{
+#search-field,#what,#type,#table_here_filter input,#addDevice, #device_update_select,.generic_search{
     width: 120px;
     height: 24px;
     border-radius: 3px;

@@ -58,12 +58,23 @@ if(empty(@$_SESSION['user_name'])){
 			<?php endif; ?>    
 		</span>
 	</div>
-	<div class="search-container">
-	</div>
-		
-	<div id="fields_container">
-		<div class="btns-primary">
-			Add Device Users
+		<div class="search-container">
+			<div class="search" id="category_selector">
+				<div><select class="generic_search">
+					<option value="Users">Users</option>
+				</select>
+			</div>	
+		</div>
+		<div class="search-go">
+			<span id="search_button"  name="search_btn" onclick="getDeviceUsers()" >Go</span>
 		</div>
 	</div>
-</div>
+		
+	<div class="table_container" style="display: none">
+		<div class="data-table">
+			<table id="table_here" class="display" style="width:100%;">
+
+			</table>
+
+		</div>
+	</div></div>

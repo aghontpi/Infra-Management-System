@@ -363,6 +363,20 @@ if(isset($_POST["btn_submit_device"])){
 	}
 }
 
-
-
+/*
+Added for further requiremnets.
+*/
+if(isset($_POST['getDeviceUsers'])){
+	$response = array('data' => array());
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$stmt = "SELECT du.device_user_id AS 'Serial',du.user_name AS 'Users',br.branch_name AS 'Branch' FROM device_users du INNER JOIN branch br ON du.r_branch_id = br.branch_id";
+	foreach ($pdo->query($stmt) as $row) {
+		$response['data'][] = array(
+			$row['Serial'],
+			$row['Users'],
+			$row['Branch']
+		);
+	}
+	echo json_encode($response);
+}
 ?>

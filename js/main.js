@@ -3,6 +3,7 @@ var dashboard_table_device_pc=0;
 var dashboard_table_device_other=0;
 var table_update_del_device_pc = 0;
 var table_update_del_other_device = 0;
+var DTtable=0;
 let sql = "select * from ";
 const loading_img = '<div style="margin-left:47%;" ><img src="loading.gif" border-radius="50%"</div>';
 
@@ -574,3 +575,51 @@ function manageUsersFunc(){
 		}
 	}
 }
+
+/*
+Section below for new requirements.
+*/
+function getDeviceUsers(){
+	const payload = { "getDeviceUsers": 1 };
+	const tableHeadings = ['Serial','Users','Branch']
+
+	if(DTtable){
+		createNewDataTableInstance();
+	}
+	createTable(createTableHeadings(tableHeadings));
+	ajaxCallGetUsers(payload);
+}
+
+
+function createNewDataTableInstance(){
+	DTtable.destroy();
+	DTtable=0;
+}
+
+function createTableHeadings(paramHeadings){
+	var tableRowFormat = '<thead><tr>'
+	paramHeadings.forEach(function(element) {
+		tableRowFormat += '<th>' + element + '</th>';
+	});
+	return tableRowFormat += '</tr></thead>';
+}
+
+function createTable(paramHeadings){
+	$("#table_here").empty().append(paramHeadings);
+	$('.table_container').show();
+}
+
+function ajaxCallGetUsers(paramPayload){
+	DTtable = $('#table_here').DataTable({
+			"ajax": {
+				url: "worker.php",
+				method: "POST",
+				data: paramPayload,
+			},
+			columnDefs: [
+				{	targets:'_all',
+					className:"dt-body-center"
+				}
+			]
+		});
+} 
