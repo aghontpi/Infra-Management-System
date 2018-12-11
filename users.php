@@ -50,6 +50,9 @@ $count = $db->getNumberPendingAccounts();
 		elseif ($id=="verify"){
 			include("activateusers.php");
 		}
+		elseif ($id=="device_users"){
+			include("sections/add_device_users.php");
+		}
 		else {
 			echo 'Page not Found';
 		}
