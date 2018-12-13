@@ -46,7 +46,7 @@ if(empty(@$_SESSION['user_name'])){
 
 <div class="dashboard-container">
 	<div class="overall-container">
-		<div class="dashboard"  id="dashboard-add"">
+		<div class="dashboard"  id="dashboard-add">
 			
 			<span>
 				Assign computer/lap and other devices to user id here.

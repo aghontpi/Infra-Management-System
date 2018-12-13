@@ -30,6 +30,7 @@ $count = $db->getNumberPendingAccounts();
 	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="js/dataTables.jqueryui.min.js"></script>
 	<!---------end of datatable's used here are 1.9 --->
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body style="background-color:#083045;">

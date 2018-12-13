@@ -41,21 +41,11 @@ if(empty(@$_SESSION['user_name'])){
 
 <div class="dashboard-container">
 	<div class="overall-container">
-	<div class="dashboard">
+	<div class="dashboard" id="dashboard-add">
 		<span>
-			<?php if(empty(@$_SESSION['add_status'])):?>
-			Here You can create Device Users<br><br>
+				Here You can create Device Users<br><br>
 
-			Add them to branch etc.
-			<?php endif; ?> 
-			
-			<?php if(!empty(@$_SESSION['add_status'])):?>
-				<?php 
-				$ts = $_SESSION['add_status'];
-				unset($_SESSION['add_status']);	
-				?>
-				<span style="background-color: yellow; color: black;"><?php echo $ts; ?></span>
-			<?php endif; ?>    
+				Add them to branch etc. 
 		</span>
 	</div>
 		<div class="search-container">

@@ -4,6 +4,8 @@ var dashboard_table_device_other=0;
 var table_update_del_device_pc = 0;
 var table_update_del_other_device = 0;
 var DTtable=0;
+var Branches = ['chennai','mumbai'];
+
 let sql = "select * from ";
 const loading_img = '<div style="margin-left:47%;" ><img src="loading.gif" border-radius="50%"</div>';
 
@@ -581,7 +583,7 @@ Section below for new requirements.
 */
 function getDeviceUsers(){
 	const payload = { "getDeviceUsers": 1 };
-	const tableHeadings = ['Serial','Users','Branch']
+	const tableHeadings = ['Serial','Users','Branch', 'Action']
 
 	if(DTtable){
 		destroyDataTable();
@@ -623,3 +625,12 @@ function ajaxCallGetUsers(paramPayload){
 			]
 		});
 } 
+
+function mapUser(paramUser){
+	$("#dashboard-add").empty().append(getChunkUI(paramUser));
+	$("#map-user-branch").autocomplete({"source":Branches});
+}
+
+function getChunkUI(chunk){
+	return '<div class="w-400 make-center"><span>Map User</span> <span class="ml-20" id="user-to-map" user="'+chunk+'"> " '+chunk+' "	</span> <input class="ml-20 generic_search" type="text" id="map-user-branch" name="branch-mapping"></div><br><div class="make-center"><button class="update-submit" style="margin-left:40%">Map User</button></div>';
+}
