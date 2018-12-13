@@ -584,14 +584,14 @@ function getDeviceUsers(){
 	const tableHeadings = ['Serial','Users','Branch']
 
 	if(DTtable){
-		createNewDataTableInstance();
+		destroyDataTable();
 	}
-	createTable(createTableHeadings(tableHeadings));
+	showTable(createTableHeadings(tableHeadings));
 	ajaxCallGetUsers(payload);
 }
 
 
-function createNewDataTableInstance(){
+function destroyDataTable(){
 	DTtable.destroy();
 	DTtable=0;
 }
@@ -604,7 +604,7 @@ function createTableHeadings(paramHeadings){
 	return tableRowFormat += '</tr></thead>';
 }
 
-function createTable(paramHeadings){
+function showTable(paramHeadings){
 	$("#table_here").empty().append(paramHeadings);
 	$('.table_container').show();
 }
