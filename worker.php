@@ -382,4 +382,34 @@ if(isset($_POST['getDeviceUsers'])){
 	}
 	echo json_encode($response);
 }
+
+if(isset($_POST['mapUser'])){
+	$status = 0;
+	try{
+		$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+		$data =["user" => $_POST['mapUser'],"branch"=>$_POST['branch']];
+		$sql ="UPDATE device_users SET r_branch_id = (SELECT branch_id from branch where branch_name=:branch ) where user_name=:user";
+		$status = $pdo->prepare($sql)->execute($data);
+	}
+	catch (PDOException $e){
+		echo "0";
+		die();
+	}
+	echo $status;	
+}
+
+if(isset($_POST['nDeviceUser'])){
+	$status = 0;
+	try{
+		$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+		$data =["user" => $_POST['nDeviceUser']];
+		$sql ="INSERT INTO device_users SET device_user_id=0, user_name=:user, r_branch_id=0";
+		$status = $pdo->prepare($sql)->execute($data);
+	}
+	catch (PDOException $e){
+		echo "0";
+		die();
+	}
+	echo $status;	
+}
 ?>

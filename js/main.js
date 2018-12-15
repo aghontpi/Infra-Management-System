@@ -4,7 +4,9 @@ var dashboard_table_device_other=0;
 var table_update_del_device_pc = 0;
 var table_update_del_other_device = 0;
 var DTtable=0;
-var Branches = ['chennai','mumbai'];
+var Branches = ['chennai','delhi',''];
+var form_dialog = null;
+var dashBClone = null;
 
 let sql = "select * from ";
 const loading_img = '<div style="margin-left:47%;" ><img src="loading.gif" border-radius="50%"</div>';
@@ -232,10 +234,10 @@ function updateToserver(){
 		success:function(data){
 			if(data==1){
 				table_update_del_device_pc.ajax.reload(null,false);
-				$("#dashboard-add").empty().append('<span style="background-color: yellow; color: black;">Updated Successfully</span>');
+				msgOnDashboard("Updated Successfully");
 			}
 			else{
-				$("#dashboard-add").empty().append('<span style="background-color: yellow; color: black;">Error Debug :(</span>');
+				msgOnDashboard("Error Debug :(");
 			}
 		}
 	});
@@ -627,10 +629,124 @@ function ajaxCallGetUsers(paramPayload){
 } 
 
 function mapUser(paramUser){
+	_dashClone();
 	$("#dashboard-add").empty().append(getChunkUI(paramUser));
 	$("#map-user-branch").autocomplete({"source":Branches});
 }
 
 function getChunkUI(chunk){
-	return '<div class="w-400 make-center"><span>Map User</span> <span class="ml-20" id="user-to-map" user="'+chunk+'"> " '+chunk+' "	</span> <input class="ml-20 generic_search" type="text" id="map-user-branch" name="branch-mapping"></div><br><div class="make-center"><button class="update-submit" style="margin-left:40%">Map User</button></div>';
+	return '<div class="w-400 make-center"><span>Map User</span> <span class="ml-10" id="user-to-map" user="'+chunk+'"> " '+chunk+' "	</span> <input class="ml-20 generic_search" placeholder="Type the Branch" type="text" id="map-user-branch" name="branch-mapping"></div><br><div class="make-center"><button class="update-submit" id="mapUserSubmit" onclick="mapTrigger()" style="margin-left:40%">Map User</button></div>';
+}
+
+function mapTrigger(){
+	var userVal = $("#user-to-map").attr('user');
+	var branchMapping = $("#map-user-branch").val();
+	var payload = {"mapUser":userVal,"branch":branchMapping};
+	if(!Branches.includes(branchMapping)){
+		createDialog('Error','Entered branch does not exist!')
+		triggerDialog();
+	}
+	CajaxRequest("worker.php","POST",payload,"afterUserMappingCallback");
+}
+
+function createDialog(paramTitle,paramMsg,paramHtmlContent=null,paramId = "dialog-message"){
+	var htmlContent
+	if(paramHtmlContent == null)
+		htmlContent = '<div id="'+paramId+'" title="'+paramTitle+'"><p>'+paramMsg+'</p></div>';
+	else
+		htmlContent = '<div id="'+paramId+'" title="'+paramTitle+'">'+paramHtmlContent+'</div>';
+	if(isElementPresentInDom(paramId)){
+		$("#"+paramId).remove();
+	}
+	$("body").append(htmlContent);
+}
+
+function triggerDialog(){
+	$( "#dialog-message" ).dialog({
+      modal: true,
+    });
+}
+
+function isElementPresentInDom(paramElementId){
+	 if($("#"+paramElementId).length > 0){
+	 	return true;
+	 }
+	 return false;
+}
+
+function CajaxRequest(paramUrl,paramMethod,paramPayload,paramCallBackfunction){
+	$.ajax({
+		url:paramUrl,
+		method:paramMethod,
+		data:paramPayload,
+		dataType:"json",
+		success:(x)=>{
+			window[paramCallBackfunction](x);
+		}
+	});
+}
+
+function afterUserMappingCallback(paramStatus,successMsg="User Was Mapped",failureMsg="There was error mapping the user"){
+	if(paramStatus){
+		createDialog("Success",successMsg);
+		triggerDialog();
+		DTtable.ajax.reload(null,false);
+		$("#dashboard-add").empty().append(dashBClone);
+	}
+	else{
+		createDialog("Error",failureMsg);
+		triggerDialog();
+		
+	}
+}
+
+function addDeviceUser(){
+	var blob = '<form><br><label style = "display:inline-block" class="ml-20" >Name/id</label><input type="text" id="device_user_name" placeholder="Enter name/id" style = "display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"></form>';
+	createDialog("Add User",null,blob,"dialog-form");
+	formDialogTrigger();
+}
+
+function formDialogTrigger(){
+	form_dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 200,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create User": cDU
+      },
+      close: function() {
+        form[ 0 ].reset();
+      }
+    });
+ 
+    form = form_dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      cDU();
+    });
+    form_dialog.dialog( "open" );
+}
+
+function cDU(){
+	var deviceUserName = $("#device_user_name").val();
+	var payload = {"nDeviceUser":deviceUserName};
+	if(!deviceUserName && deviceUserName == ""){
+		createDialog("Error","Please Enter something.");
+		triggerDialog();
+		return false;
+	}
+	CajaxRequest("worker.php","POST",payload,"afterCDUCallback");
+	form_dialog.dialog("close");
+	return true;
+}
+
+function afterCDUCallback(paramStatus){
+	afterUserMappingCallback(paramStatus,"User Was Successfully Added", "There was an error, try again.");
+}
+
+function msgOnDashboard(paramMsg){
+	$("#dashboard-add").empty().append('<span style="background-color: yellow; color: black;">' +paramMsg+'</span>');
+}
+function _dashClone(){
+	dashBClone = $("#dashboard-add").children().clone();
 }

@@ -54,10 +54,13 @@ if(empty(@$_SESSION['user_name'])){
 					<option value="Users">Users</option>
 				</select>
 			</div>	
-		</div>
+		</div>	
 		<div class="search-go">
-			<span id="search_button"  name="search_btn" onclick="getDeviceUsers()" >Go</span>
+			<span id="search_button"  name="search_btn" onclick="getDeviceUsers()" >List User</span>
 		</div>
+		<div class="search-go mr-20">
+			<span name="Adduser" class="themebtn" onclick="addDeviceUser()" >Adduser</span>
+		</div>	
 	</div>
 		
 	<div class="table_container" style="display: none">

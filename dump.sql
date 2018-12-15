@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `branch`
+--
+
+DROP TABLE IF EXISTS `branch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `branch` (
+  `branch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `branch_name` varchar(15) NOT NULL,
+  PRIMARY KEY (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `branch`
+--
+
+LOCK TABLES `branch` WRITE;
+/*!40000 ALTER TABLE `branch` DISABLE KEYS */;
+INSERT INTO `branch` VALUES (0,''),(1,'chennai'),(2,'delhi');
+/*!40000 ALTER TABLE `branch` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `device_other`
 --
 
@@ -34,7 +58,7 @@ CREATE TABLE `device_other` (
   UNIQUE KEY `serial` (`serial`),
   UNIQUE KEY `device_id` (`device_id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,6 +109,33 @@ INSERT INTO `device_pc` VALUES (46,'desktop_01','custom build','dv 3863973','i3 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `device_users`
+--
+
+DROP TABLE IF EXISTS `device_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_users` (
+  `device_user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(15) NOT NULL,
+  `r_branch_id` int(11) NOT NULL,
+  PRIMARY KEY (`device_user_id`),
+  KEY `device_users_fk` (`r_branch_id`),
+  CONSTRAINT `device_users_fk` FOREIGN KEY (`r_branch_id`) REFERENCES `branch` (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_users`
+--
+
+LOCK TABLES `device_users` WRITE;
+/*!40000 ALTER TABLE `device_users` DISABLE KEYS */;
+INSERT INTO `device_users` VALUES (1,'Gopinath',1),(3,'BluePie',1),(4,'frostin',2),(6,'waffle',0);
+/*!40000 ALTER TABLE `device_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -99,7 +150,7 @@ CREATE TABLE `users` (
   `verified` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_name`),
   UNIQUE KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +159,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','$2y$10$mYxAnh8AQb3Mn2Oi0UETmusRJ85ANHRDwfWijJciXn358u9ZYHr.2','2018-07-06 07:53:58',1),(7,'bluepie','$2y$10$YCyXgPaTOUB2rdREhCdvCexNVkU9oq/WazP1BetOYi.j5GHghl2Xu','0000-00-00 00:00:00',1),(2,'gopi','$2y$10$.O2MhcglGlBixD01lu8VX.N.lXyTrYpfKcqFRBVzQl53Y7MXTuNaC','2018-07-06 06:36:24',1),(8,'kirbie','$2y$10$UJIVpj.EORbcaF5xOauwReSt9gZ4zJE186i9nf78U1S94Smrf8/..','0000-00-00 00:00:00',0),(10,'newacc','$2y$10$gYWggUq8LOxMML9EP/ru3u4zCZKarqQvDnfApI4Bl2JIGidtTqpiC','0000-00-00 00:00:00',0),(4,'user','$2y$10$cL8U0oWQuYKzVb1GMHGdpeDfgngen7qvPHXZ9IY7RAQMa8lCrJtyW','2018-07-01 08:51:14',0);
+INSERT INTO `users` VALUES (1,'admin','$2y$10$mYxAnh8AQb3Mn2Oi0UETmusRJ85ANHRDwfWijJciXn358u9ZYHr.2','2018-12-15 18:17:37',1),(7,'bluepie','$2y$10$YCyXgPaTOUB2rdREhCdvCexNVkU9oq/WazP1BetOYi.j5GHghl2Xu','0000-00-00 00:00:00',1),(2,'gopi','$2y$10$.O2MhcglGlBixD01lu8VX.N.lXyTrYpfKcqFRBVzQl53Y7MXTuNaC','2018-07-06 09:06:35',1),(11,'paarnica','$2y$10$D5Bw6KSXXyLp26DF0PMIMukROzEegYOdefc7Np32EgF.qHpn.B0CW','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -121,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-06  8:36:18
+-- Dump completed on 2018-12-15 19:27:05

@@ -79,7 +79,7 @@
     top: 120px;
     left: 100px;
     bottom: 0px;
-    height: 250px;
+    height: 280px;
     transition: 0.5s;
     border: solid 1px #334f4c;
 }
@@ -156,7 +156,7 @@
     float: right;
 }
 
-#search_button,.btnright {
+#search_button,.btnright,.themebtn {
     padding: 6px 16px;
     border: 0px;
     cursor: pointer;
@@ -318,6 +318,16 @@ font-size:12px;
 }
 
 /*
+override content
+*/
+.ui-widget.ui-widget-content{
+    border: solid 1px #fee36db8!important;
+}
+.ui-widget-content{
+    background:#083045!important;
+    color:#fee36d!important;
+}
+/*
 helper classes
 */
 .w-400{
@@ -326,4 +336,10 @@ helper classes
 
 .ml-20{
     margin-left:20px;
+}
+.ml-10{
+    margin-left:10px;
+}
+.mr-20{
+    margin-right:20px;
 }

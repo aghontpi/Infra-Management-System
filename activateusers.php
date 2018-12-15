@@ -30,6 +30,9 @@ if(empty(@$_SESSION['user_name'])){
 				<li> <a href="users.php?id=loan"><span class="container-cate">
 					Loan Items
 				</span></a></li>
+				<li><a href="users.php?id=device_users"><span class="container-cate">
+					Device Users
+				</span></a></li>				
 				<li class="li-active"> <a href="users.php?id=verify"><span class="container-cate">
 					Approve users
 				</span></a></li>

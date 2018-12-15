@@ -578,7 +578,7 @@ button.ui-button::-moz-focus-inner {
 	position: absolute;
 	top: 0;
 	left: 0;
-	padding: .2em;
+	padding: 1px;
 	outline: 0;
 }
 .ui-dialog .ui-dialog-titlebar {
@@ -898,11 +898,11 @@ body .ui-tooltip {
 	font-size: 1em;
 }
 .ui-widget.ui-widget-content {
-	border: 1px solid #c5c5c5;
+	border: 1px solid #334f4c;
 }
 .ui-widget-content {
-	border: 1px solid #dddddd;
-	background: #ffffff;
+	border: 1px solid #334f4c;
+	background: none;
 	color: #333333;
 }
 .ui-widget-content a {
