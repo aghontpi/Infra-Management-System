@@ -62,8 +62,8 @@ if(empty(@$_SESSION['user_name'])){
 			<div class="search" id="category_selector">
 				<div><select name="update_select" id="device_update_select">
 					<option value="" disabled selected>What?</option>
-					<option value="device_pc">Device PC</option>
-					<option value="other_device">Other Devices</option>
+					<option value="device_pc">Devices</option>
+					<option value="stock">Stock</option>
 				</select>
 			</div>	
 		</div>

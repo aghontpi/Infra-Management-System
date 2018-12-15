@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `branch`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `branch` (
   `branch_id` int(11) NOT NULL AUTO_INCREMENT,
-  `branch_name` varchar(15) NOT NULL,
+  `branch_name` varchar(24) NOT NULL,
   PRIMARY KEY (`branch_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -89,12 +89,14 @@ CREATE TABLE `device_pc` (
   `hard_disk_capacity` varchar(10) NOT NULL,
   `model` varchar(20) NOT NULL,
   `os` varchar(20) NOT NULL,
-  `used_by` varchar(20) NOT NULL,
+  `used_by` int(11) NOT NULL,
   PRIMARY KEY (`device_id`),
   UNIQUE KEY `device_serial` (`device_serial`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `device_id` (`device_id`),
-  UNIQUE KEY `charger_serial_number` (`charger_serial_number`)
+  UNIQUE KEY `charger_serial_number` (`charger_serial_number`),
+  KEY `user_by_fk` (`used_by`),
+  CONSTRAINT `user_by_fk` FOREIGN KEY (`used_by`) REFERENCES `device_users` (`device_user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,7 +106,7 @@ CREATE TABLE `device_pc` (
 
 LOCK TABLES `device_pc` WRITE;
 /*!40000 ALTER TABLE `device_pc` DISABLE KEYS */;
-INSERT INTO `device_pc` VALUES (46,'desktop_01','custom build','dv 3863973','i3 4th Gen','8GB','not applicable','500 GB','custom build','win/linux',''),(19,'id_03','hp','hp 73618','i3 5th Gen','4GB','charger 473','1TB','mid range','win','eif43'),(18,'laptop_02','asus ','asus 3874','i5 7th Gen','4GB','charger 7684','1 TB','asus gaming','win','normus123'),(1,'pc_01','dell','dell 678574853','i5 3rd gen','4GB','dell charger 675','500GB','lattitude E4352','win','emp id 321');
+INSERT INTO `device_pc` VALUES (46,'desktop_01','custom build','dv 3863973','i3 4th Gen','8GB','not applicable','500 GB','custom build','win/linux',0),(19,'id_03','hp','hp 73618','i3 5th Gen','4GB','charger 473','1TB','mid range','win',0),(18,'laptop_02','asus ','asus 3874','i5 7th Gen','4GB','charger 7684','1 TB','asus gaming','win',0),(1,'pc_01','dell','dell 678574853','i5 3rd gen','4GB','dell charger 675','500GB','lattitude E4352','win',4);
 /*!40000 ALTER TABLE `device_pc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,8 +123,9 @@ CREATE TABLE `device_users` (
   `r_branch_id` int(11) NOT NULL,
   PRIMARY KEY (`device_user_id`),
   KEY `device_users_fk` (`r_branch_id`),
+  KEY `device_user_id` (`device_user_id`),
   CONSTRAINT `device_users_fk` FOREIGN KEY (`r_branch_id`) REFERENCES `branch` (`branch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +134,7 @@ CREATE TABLE `device_users` (
 
 LOCK TABLES `device_users` WRITE;
 /*!40000 ALTER TABLE `device_users` DISABLE KEYS */;
-INSERT INTO `device_users` VALUES (1,'Gopinath',1),(3,'BluePie',1),(4,'frostin',2),(6,'waffle',0);
+INSERT INTO `device_users` VALUES (0,'',0),(1,'Gopinath',1),(3,'BluePie',1),(4,'frostin',1),(6,'waffle',0);
 /*!40000 ALTER TABLE `device_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-15 19:27:05
+-- Dump completed on 2018-12-16  2:02:52

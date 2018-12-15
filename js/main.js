@@ -446,32 +446,9 @@ function updateitemsDisplay_loan(){
 			table_update_del_other_device.destroy();
 			table_update_del_other_device=0;
 		}
-		$("#table_here").empty().append('<thead><tr><th>ID</th><th>Device ID</th><th>Brand</th><th>Device Serial</th><th>Charger Serial</th><th>Model</th><th>Used by</th><th>Assign/Receive</th></tr></thead>');	
-		$("#table_here").dataTable().fnDestroy();
-		$('.table_container').show();
-		table_update_del_device_pc = $('#table_here').DataTable({
-			"ajax":{
-				url:"worker.php",
-				method:"post",
-				data:{getdata_updatepage_loan:1}
-			},order:[],
-			columnDefs: [
-			{ 
-				orderable: false, 
-				targets: -1 
-			},
-			{	targets:-1,
-				className:"dt-body-center"
-			},
-			{
-				"targets": [ 0 ],
-				"visible": false,
-				"searchable": false
-			}
-			]
-		});
+		ManageDevices("used");
 	}
-	else if (temp=="other_device") {
+	else if (temp=="stock") {
 		if(table_update_del_device_pc){
 			table_update_del_device_pc.destroy();
 			table_update_del_device_pc=0;
@@ -479,31 +456,7 @@ function updateitemsDisplay_loan(){
 			table_update_del_other_device.destroy();
 			table_update_del_other_device=0;
 		}
-
-		$("#table_here").empty().append('<thead><tr><th>ID</th><th>Device ID</th><th>Name</th><th>Brand</th><th>Serial</th><th>Used by</th><th>Assign/Receive</th></tr></thead>');
-		$("#table_here").dataTable().fnDestroy();
-		$('.table_container').show();
-		table_update_del_other_device = $('#table_here').DataTable({
-			"ajax":{
-				url:"worker.php",
-				method:"post",
-				data:{getdata_updatepage_od_loan:1}
-			},order:[],
-			columnDefs: [
-			{ 
-				orderable: false, 
-				targets: -1 
-			},
-			{	targets:'_all',
-			className:"dt-body-center"
-		},
-		{
-			"targets": [ 0 ],
-			"visible": false,
-			"searchable": false
-		}
-		]
-	});
+		ManageDevices("stock");
 	}
 }
 
@@ -749,4 +702,34 @@ function msgOnDashboard(paramMsg){
 }
 function _dashClone(){
 	dashBClone = $("#dashboard-add").children().clone();
+}
+
+function ManageDevices(paramType){
+	var payload = {"getdata_updatepage_loan":1}
+	if(paramType == "stock")
+		payload = {"getdata_updatepage_loan":1,"onlyStock":1};
+	$("#table_here").empty().append('<thead><tr><th>ID</th><th>Device ID</th><th>Brand</th><th>Device Serial</th><th>Charger Serial</th><th>Model</th><th>Used by</th><th>Assign/Receive</th></tr></thead>');	
+		$("#table_here").dataTable().fnDestroy();
+		$('.table_container').show();
+		table_update_del_device_pc = $('#table_here').DataTable({
+			"ajax":{
+				url:"worker.php",
+				method:"post",
+				data:payload,
+			},order:[],
+			columnDefs: [
+			{ 
+				orderable: false, 
+				targets: -1 
+			},
+			{	targets:-1,
+				className:"dt-body-center"
+			},
+			{
+				"targets": [ 0 ],
+				"visible": false,
+				"searchable": false
+			}
+			]
+		});
 }

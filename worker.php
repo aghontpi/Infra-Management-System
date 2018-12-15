@@ -13,7 +13,7 @@ if(isset($_POST["get_all_columns"])){
 }
 if(isset($_POST["get_all_device_pc"])){
 	$dataBase = new DB;
-	$alldata = "SELECT * FROM device_pc";
+	$alldata = "SELECT id,device_id,brand,device_serial,cpu,ram,charger_serial_number,hard_disk_capacity,model,os,du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) where dp.used_by !=0";
 	$data = $dataBase->getQuery($alldata);
 	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
 	echo json_encode($temp_arr);
@@ -116,7 +116,13 @@ if(isset($_POST["getdata_updatepage"])){
 if(isset($_POST["getdata_updatepage_loan"])){
 	$response = array('data' => array());
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "SELECT * from device_pc";
+	$stmt = "SELECT id,device_id,brand,device_serial,charger_serial_number,model, du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) ";
+	if(isset($_POST["onlyStock"])){
+		$stmt .= "where dp.used_by = 0";
+	}
+	else{
+		$stmt .= "where dp.used_by != 0";
+	}
 	foreach ($pdo->query($stmt) as $row) {
 		$id = $row['id'];
 		$editicon = '<span style="cursor:pointer;" onclick="getFieldsForUpdate_loan('.$id.')">&#x2692;';
@@ -235,7 +241,7 @@ if(isset($_POST["updaterow_loan"])){
 	'usby'=>$_POST["used_by"]
 ];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "UPDATE device_pc SET used_by=:usby WHERE id =:tochange;";
+	$stmt = "UPDATE device_pc SET used_by=(select device_user_id from device_users where user_name =:usby) WHERE id =:tochange;";
 	$status = $pdo->prepare($stmt)->execute($row);
 	if($status){
 		echo 1;
