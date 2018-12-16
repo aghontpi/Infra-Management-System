@@ -245,12 +245,6 @@ function updateToserver(){
 }
 function updateToserver_loan(){
 	var formdata = $("#update-form");
-	var a = $('#usd1').val();
-	var b = $('#usd2').val();
-	if(a!==b){
-		alert("Fields doesnt not match");
-		return false;
-	}
 	var submitdata = 'updaterow_loan=1&'
 	submitdata += formdata.serialize();
 	console.log(submitdata);
@@ -295,10 +289,29 @@ function getFieldsForUpdate_loan(id){
 		dataType:"json",
 		success:function(data){
 			console.log(data);
-			$("#dashboard-add").empty().append('<span>For confirmation you need to type twice</span> <br><br><br><div><form id="update-form"><div class="container_update-values"> <div><label id="used-by-label">Used by:</label> <input type="text" name="used_by" id="usd2" value="'+data.used_by+'"></div><div><label>Type Again:</label> <input type="text" name="used_by" id="usd1"></div><div><input type="hidden" value="'+data.id+'" name="id_seq" /></div></div>  <button id="update-submit" onclick="return updateToserver_loan()" class="update-submit">update</button></form></div>');
+			$("#dashboard-add").empty().append('<span>Type in the textBox For AutoFill</span> <br><br><br><div><form id="update-form"><div class="container_update-values ui-widget"> <div><label id="used-by-label">Used by:</label> <input type="text" name="used_by" style="width:160px" id="usd2"></div><div><input type="hidden" value="'+data.id+'" name="id_seq" /></div></div>  <button id="update-submit" onclick="return updateToserver_loan()" class="update-submit">update</button></form></div>');
+			userAutoComplete(); 
 		}
 	});
 
+}
+
+function userAutoComplete(){	
+	$("#usd2").autocomplete({
+		source:function(req,res){
+		$.ajax({
+			url:"worker.php",
+			dataType:"json",
+			data:{"userL":req.term},
+			success:function(x){
+				console.log(x);
+				res(x);
+
+			}
+		});
+		},
+		minLength:2
+	});
 }
 function deleteFieldsForUpdate(id){
 	if (confirm("Are you sure to delete!!")) {

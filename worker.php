@@ -418,4 +418,13 @@ if(isset($_POST['nDeviceUser'])){
 	}
 	echo $status;	
 }
+
+if(isset($_GET['userL'])){
+	$userQuery = $_GET['userL'];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$sql ="SELECT user_name from device_users where user_name LIKE '%{$userQuery}%'";
+	$qres=$pdo->query($sql);
+	$res = $qres->fetchall(PDO::FETCH_ASSOC);
+	echo json_encode(array_column($res,'user_name'));
+}
 ?>
