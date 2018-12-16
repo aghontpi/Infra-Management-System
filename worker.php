@@ -375,7 +375,7 @@ Added for further requiremnets.
 if(isset($_POST['getDeviceUsers'])){
 	$response = array('data' => array());
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "SELECT du.device_user_id AS 'Serial',du.user_name AS 'Users',br.branch_name AS 'Branch' FROM device_users du INNER JOIN branch br ON du.r_branch_id = br.branch_id";
+	$stmt = "SELECT du.device_user_id AS 'Serial',du.user_name AS 'Users',br.branch_name AS 'Branch' FROM device_users du INNER JOIN branch br ON du.r_branch_id = br.branch_id WHERE device_user_id != 0";
 	foreach ($pdo->query($stmt) as $row) {
 		$userName =$row['Users'];
 		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="mapUser('.htmlspecialchars('"',ENT_QUOTES).$userName.htmlspecialchars('"',ENT_QUOTES).')">&#x2710;</span>';
