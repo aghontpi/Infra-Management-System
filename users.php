@@ -19,9 +19,6 @@ $count = $db->getNumberPendingAccounts();
 	<title>Management</title>
 	<meta name="description" content="Customised InfraStructure Management Software for Organisation">
     <meta name="author" content="Gopinath">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
 	<link rel="stylesheet" href="css/main.css" />
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<!---------datatable's used here are 1.9 --->
