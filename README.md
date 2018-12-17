@@ -14,7 +14,7 @@ Tried different things with php because to have a learning curve and also why no
 
 Server with php running, use the dump.sql file first!!
 
-Have a Demo live [Demo](http://imdead.esy.es/php) 
+Have a Demo live [Demo](http://bluepie.live/infra) 
 
 its a simple passowrd you can guess it.. (or dm me on twitter for passowrd.. )
 
