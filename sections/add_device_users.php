@@ -25,7 +25,7 @@ if(empty(@$_SESSION['user_name'])){
 					Edit/Update Items
 				</span></a></li>
 				<li><a href="users.php?id=loan"><span class="container-cate">
-					Loan Items
+					Give/Get Items
 				</span></a></li>
 				<li class="li-active"><a href="users.php?id=device_users"><span class="container-cate">
 					Device Users

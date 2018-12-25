@@ -26,28 +26,19 @@ function createTable() {
 			url: "worker.php",
 			method: "POST",
 			data: { get_all_device_pc: 1 },
-			"dataSrc": ""
 		},
-		"columns": [
-		{ "data": "id",className:"dt-body-center"  },
-		{ "data": "device_id", className:"dt-body-center" },
-		{ "data": "brand" },
-		{ "data": "device_serial", className:"dt-body-center" },
-		{ "data": "cpu" },
-		{ "data": "ram" },
-		{ "data": "charger_serial_number", className:"dt-body-center" },
-		{ "data": "hard_disk_capacity", className:"dt-body-center" },
-		{ "data": "model" },
-		{ "data": "os" },
-		{ "data": "used_by" }
-
-		],
+		scrollY:false,
+        scrollX:true,
+        scrollCollapse: true,
 		"columnDefs": [
 		{
 			"targets": [ 0 ],
 			"visible": false,
 			"searchable": false
-		}
+		},
+		{	targets:-1,
+				className:"dt-body-center"
+		},
 		]
 	});
 }
@@ -63,32 +54,9 @@ function dashboardDisplay() {
 			dashboard_table_device_other.destroy();
 			dashboard_table_device_other=0;
 		}
-		$('#table_here').empty().append('<thead><tr><th>id</th><th>device_id</th><th>brand</th><th>device serial.</th><th>cpu</th><th>ram</th><th>charger serial</th><th>Hard Disk</th><th>model</th><th>os</th><th>used by</th></tr></thead>');
-		$('.table_container').show();
+		const tableHeadings = ['id','asset_number','tag', 'brand','ram','processor','laptop_serial','charger_serial','HD_capacity','model','os','mouse_serial','bag_details','battery/keyboard serial','remarks','used_by'];
+		showTable(createTableHeadings(tableHeadings));
 		createTable();
-		// sql = sql + "device_pc ";
-  //       //ajaxcall to retrieve from databse
-  //       $.ajax({
-  //       	url: "worker.php",
-  //       	method: "POST",
-  //       	dataType: "json",
-  //       	data: { get_all_columns: 1, },
-  //       	success: function(data) {
-  //       		var b = [];
-  //       		for (a in data) {
-  //       			if (!data.length - 1 == a) {
-  //       				b.push('{"data":"' + data[a]["Field"] + '"},');
-  //       			} else {
-  //       				b.push('{"data":"' + data[a]["Field"] + '"}');
-  //       			}
-  //       		}
-  //               // createTable(arr);
-  //               //call the function to get all data ffrom databse
-  //               console.log("inside the get all data");
-
-  //           }
-  //       });
-
 }
 else if(temp == "device_other"){
 	if(dashboard_table_device_other){
@@ -135,15 +103,16 @@ else if(temp == "device_other"){
 }
 
 function getAttributes_to_add(){
-var temp = $("#addDevice option:selected").val();
-if(temp == "pc"){
+var temp = $("#addDevice option:selected").val();if(temp == "pc"){
 	$("#fields_container").empty();
-	$("#fields_container").append('<div class="base"><div><form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="cpu-label">Cpu:</label> <input type="text" name="cpu" placeholder="CPU" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial" placeholder="Charger Serial(Unique)" > <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button></form></div></div>');	
+	$("#fields_container").append('<div class="base"> <div> <form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="cpu-label">Cpu:</label> <input type="text" name="cpu" placeholder="CPU" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial" placeholder="Charger Serial(Unique)"> <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <label id="user-label">User:</label> <input type="text" id="addItemsUser" name="Device User" placeholder="Type here o autofill"> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button> </form> </div> </div>');	
+	userAutoComplete("#addItemsUser");
 }
 else if(temp =="device"){
 	$("#fields_container").empty();
 	$("#fields_container").append('<div class="base"><div><form id="survey-form" action="worker.php" method="post"> <label id="deviceid-label">Device-id:</label> <input name="device_id" placeholder="Enter device id(unique)" autofocus required> <br> <br> <label id="Name-label">Name:</label> <input type="text" name="name" placeholder="Name" required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="serial-label">Device Serial:</label> <input type="text" name="device_serial" placeholder="Device Serial(Unique)" required> <br> <br> <label id="Otherinfo-label">Other info:</label> <input type="text" name="other_info" placeholder="Extra Info" required> <br> <br> <button id="submit" name="btn_submit_device" class="btn-submit">Submit</button></form></div></div>');
 }
+
 }
 //table.destroy();
 
@@ -157,15 +126,17 @@ function updateitemsDisplay(){
 			table_update_del_other_device.destroy();
 			table_update_del_other_device=0;
 		}
-		$("#table_here").empty().append('<thead><tr><th>ID</th><th>Device ID</th><th>Brand</th><th>Device Serial</th><th>CPU</th><th>RAM</th><th>Charger Serial</th><th>Model</th><th>Os</th><th>Edit/Delete</th></tr></thead>');	
-		$("#table_here").dataTable().fnDestroy();
-		$('.table_container').show();
+		const tableHeadings = ['id','asset_number','tag', 'brand','ram','processor','laptop_serial','charger_serial','HD_capacity','model','os','mouse_serial','bag_details','battery/keyboard serial','remarks','used_by'];
+		showTable(createTableHeadings(tableHeadings));
 		table_update_del_device_pc = $('#table_here').DataTable({
 			"ajax":{
 				url:"worker.php",
 				method:"post",
 				data:{getdata_updatepage:1}
 			},order:[],
+			scrollY:false,
+        	scrollX:true,
+        	scrollCollapse: true,
 			columnDefs: [
 			{ 
 				orderable: false, 
@@ -275,7 +246,7 @@ function getFieldsForUpdate(id){
 		dataType:"json",
 		success:function(data){
 			console.log(data);
-			$("#dashboard-add").empty().append('<br><br><div><form id="update-form"><div class="container_update-values"><div><label id="deviceid-label">Device-id:</label> <input name="device_id" id="device-id" value="'+data.device_id+'" required></div><div><label id="brand-label">Brand:</label> <input type="text" name="brand" id="device-brand" value="'+data.brand+'" required></div><div><label id="serial-label">Device-Serial:</label> <input type="text" name="device_serial" id="device-serial" value="'+data.device_serial+'" required></div><div><label id="cpu-label">Cpu:</label> <input type="text" name="cpu" id="device-cpu" value="'+data.cpu+'" required></div><div><label id="ram-label">Ram:</label> <input type="text" name="ram" id="device-ram" value="'+data.ram+'" required></div><div><label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial" id="charger-serial" value="'+data.charger_serial_number+'" ></div><div><label id="HD-label">Hard Disk:</label> <input type="text" name="harddisk_capacity" id="device-hd" value="'+data.hard_disk_capacity+'" required></div><div><label id="model-label">Model:</label> <input type="text" name="model" id="device-model" value="'+data.model+'" required></div><div><label id="os-label">OS:</label> <input type="text" name="os" id="device-os" value="'+data.os+'" required></div><div><input type="hidden" value="'+data.id+'" name="id_seq" /></div></div> <button id="update-submit" onclick="return updateToserver()" class="update-submit">update</button></form></div>');
+			$("#dashboard-add").empty().append('<br> <br> <div> <form id="update-form"> <div class="container_update-values"> <div> <label id="asset_number-label">Device-id:</label> <input name="asset_number" id="asset_number" value="'+data.asset_number+'" required> </div> <div> <label id="brand-label">Brand:</label> <input type="text" name="brand" id="device-brand" value="'+data.brand+'" required> </div> <div> <label id="tag-label">tag:</label> <input type="text" name="tag" id="tag" value="'+data.tag+'" required> </div> <div> <label id="serial-label">Laptop-Serial:</label> <input type="text" name="laptop_serial" id="device-serial" value="'+data.laptop_serial+'" required> </div> <div> <label id="serial-label">Mouse-Serial:</label> <input type="text" name="mouse_serial" id="device-serial" value="'+data.mouse_serial+'" required> </div> <div> <label id="serial-label">Batt/keyboard:</label> <input type="text" name="battery_keyboard_serial" id="device-serial" value="'+data.battery_keyboard_serial+'" required> </div> <div> <label id="serial-label">Bag details:</label> <input type="text" name="bag_details" id="device-serial" value="'+data.bag_details+'" required> </div> <div> <label id="Processor-label">Processor:</label> <input type="text" name="processor" id="device-cpu" value="'+data.processor+'" required> </div> <div> <label id="ram-label">Ram:</label> <input type="text" name="ram" id="device-ram" value="'+data.ram+'" required> </div> <div> <label id="serial-label">Remarks:</label> <input type="text" name="remarks" id="remarks" value="'+data.remarks+'" required> </div> <div> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial_number" id="charger-serial" value="'+data.charger_serial_number+'"> </div> <div> <label id="HD-label">Hard Disk:</label> <input type="text" name="harddisk_capacity" id="device-hd" value="'+data.hard_disk_capacity+'" required> </div> <div> <label id="model-label">Model:</label> <input type="text" name="model" id="device-model" value="'+data.model+'" required> </div> <div> <label id="os-label">OS:</label> <input type="text" name="os" id="device-os" value="'+data.os+'" required> </div> <div> <input type="hidden" value="'+data.id+'" name="id_seq" /> </div> </div> <button id="update-submit" onclick="return updateToserver()" class="update-submit">update</button> </form> </div>');
 		}
 	});
 
@@ -290,14 +261,14 @@ function getFieldsForUpdate_loan(id){
 		success:function(data){
 			console.log(data);
 			$("#dashboard-add").empty().append('<span>Type in the textBox For AutoFill</span> <br><br><br><div><form id="update-form"><div class="container_update-values ui-widget"> <div><label id="used-by-label">Used by:</label> <input type="text" name="used_by" style="width:160px" id="usd2"></div><div><input type="hidden" value="'+data.id+'" name="id_seq" /></div></div>  <button id="update-submit" onclick="return updateToserver_loan()" class="update-submit">update</button></form></div>');
-			userAutoComplete(); 
+			userAutoComplete("#usd2"); 
 		}
 	});
 
 }
 
-function userAutoComplete(){	
-	$("#usd2").autocomplete({
+function userAutoComplete(paramElement){	
+	$(paramElement).autocomplete({
 		source:function(req,res){
 		$.ajax({
 			url:"worker.php",
@@ -746,3 +717,11 @@ function ManageDevices(paramType){
 			]
 		});
 }
+
+/*
+dont enable untill tooltip is fixed
+ $( function() {
+    $( document ).tooltip();
+  } );
+
+ */

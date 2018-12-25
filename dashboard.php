@@ -30,7 +30,7 @@ if(empty(@$_SESSION['user_name'])){
 					Edit/Update Items
 				</span></a></li>
 				<li> <a href="users.php?id=loan"><span class="container-cate">
-					Loan Items
+					Give/Get Items
 				</span></a></li>
 				<li><a href="users.php?id=device_users"><span class="container-cate">
 					Device Users
@@ -60,9 +60,7 @@ if(empty(@$_SESSION['user_name'])){
 			<div class="search" id="category_selector">
 				<div>
 					<select name="type" id="type">
-						<option value="" disabled selected>Type?</option>
-						<option value="device_pc">Device PC</option>
-						<option value="device_other">Other Devices</option>
+						<option value="device_pc">Devices PC</option>
 					</select>
 				</div>
 			</div>

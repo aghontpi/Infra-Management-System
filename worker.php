@@ -13,10 +13,11 @@ if(isset($_POST["get_all_columns"])){
 }
 if(isset($_POST["get_all_device_pc"])){
 	$dataBase = new DB;
-	$alldata = "SELECT id,device_id,brand,device_serial,cpu,ram,charger_serial_number,hard_disk_capacity,model,os,du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) where dp.used_by !=0";
+	$alldata = "SELECT id,asset_number,tag,brand,ram,processor,laptop_serial,charger_serial_number,hard_disk_capacity,model,os,mouse_serial,bag_details,battery_keyboard_serial,remarks,du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) where dp.used_by !=0";
 	$data = $dataBase->getQuery($alldata);
 	$temp_arr = $data->fetchall(PDO::FETCH_ASSOC);
-	echo json_encode($temp_arr);
+	$res = array_map(function($val){return array_values($val);},$temp_arr);
+	echo json_encode(array('data'=>$res));
 }
 if(isset($_POST["get_all_device_od"])){
 	$dataBase = new DB;
@@ -28,7 +29,7 @@ if(isset($_POST["get_all_device_od"])){
 if(isset($_POST["updateid"])){
 	$id = $_POST["updateid"];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "SELECT * FROM device_pc WHERE id = {$id}";
+	$stmt = "SELECT id,asset_number,tag,brand,ram,processor,laptop_serial,charger_serial_number,hard_disk_capacity,model,os,mouse_serial,bag_details,battery_keyboard_serial,remarks FROM device_pc WHERE id = {$id}";
 	$qres=$pdo->query($stmt);
 	$res = $qres->fetch(PDO::FETCH_ASSOC);
 	echo json_encode($res);
@@ -94,20 +95,26 @@ if(isset($_POST["userapprovestatus"])){
 if(isset($_POST["getdata_updatepage"])){
 	$response = array('data' => array());
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "SELECT id,device_id, brand, device_serial, cpu, ram, charger_serial_number, model, os from device_pc";
+	$stmt = "SELECT id,asset_number,tag,brand,ram,processor,laptop_serial,charger_serial_number,hard_disk_capacity,model,os,mouse_serial,bag_details,battery_keyboard_serial,remarks from device_pc";
 	foreach ($pdo->query($stmt) as $row) {
 		$id = $row['id'];
-		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="getFieldsForUpdate('.$id.')">&#x2710;</span><span style="cursor:pointer" onclick="deleteFieldsForUpdate('.$id.')">&#x2717;</span>';
+		$editicon = '<span style="cursor:pointer; padding-right:10px;" onclick="getFieldsForUpdate('.$id.')">&#x2710;</span> <!--- <span style="cursor:pointer" onclick="deleteFieldsForUpdate('.$id.')">&#x2717;</span> --->';
 		$response['data'][] = array(
 			$row['id'],
-			$row['device_id'],
+			$row['asset_number'],
+			$row['tag'],
 			$row['brand'],
-			$row['device_serial'],
-			$row['cpu'],
 			$row['ram'],
+			$row['processor'],
+			$row['laptop_serial'],
 			$row['charger_serial_number'],
+			$row['hard_disk_capacity'],
 			$row['model'],
 			$row['os'],
+			$row['mouse_serial'],
+			$row['bag_details'],
+			$row['battery_keyboard_serial'],
+			'<span title="'.$row['remarks'].'">'.substr($row['remarks'],0,10).'</span>',
 			$editicon
 		);
 	}
@@ -212,18 +219,23 @@ if(isset($_POST["deleteid"])){
 if(isset($_POST["updaterow"])){
 	$row=[
 	'tochange'=>$_POST["id_seq"],
-	'd_id'=>$_POST["device_id"],
+	'asset_number'=>$_POST["asset_number"],
 	'brand'=>$_POST["brand"],
-	'd_serial'=>$_POST["device_serial"],
-	'cpu'=>$_POST["cpu"],
+	'tag'=>$_POST["tag"],
+	'laptop_serial'=>$_POST["laptop_serial"],
 	'ram'=>$_POST["ram"],
-	'ch_serial'=>$_POST["charger_serial"],
-	'hd'=>$_POST["harddisk_capacity"],
+	'bag_details'=>$_POST["bag_details"],
+	'remarks'=>$_POST["remarks"],
+	'processor'=>$_POST["processor"],
+	'mouse_serial'=>$_POST["mouse_serial"],
+	'battery_keyboard_serial'=>$_POST["battery_keyboard_serial"],
+	'charger_serial_number'=>$_POST["charger_serial_number"],
+	'harddisk_capacity'=>$_POST["harddisk_capacity"],
 	'model'=>$_POST["model"],
 	'os'=>$_POST["os"]
 ];
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "UPDATE device_pc SET device_id=:d_id, brand =:brand, device_serial =:d_serial, cpu =:cpu, ram =:ram, charger_serial_number =:ch_serial, hard_disk_capacity =:hd, model =:model, os =:os WHERE id =:tochange;";
+	$stmt = "UPDATE device_pc SET asset_number=:asset_number, brand =:brand, tag=:tag , laptop_serial =:laptop_serial, processor =:processor, mouse_serial=:mouse_serial, bag_details =:bag_details, battery_keyboard_serial=:battery_keyboard_serial , ram =:ram, charger_serial_number =:charger_serial_number, hard_disk_capacity =:harddisk_capacity, model =:model, remarks =:remarks, os =:os WHERE id =:tochange;";
 	$status = $pdo->prepare($stmt)->execute($row);
 	if($status){
 		echo 1;
