@@ -123,7 +123,7 @@ if(isset($_POST["getdata_updatepage"])){
 if(isset($_POST["getdata_updatepage_loan"])){
 	$response = array('data' => array());
 	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-	$stmt = "SELECT id,device_id,brand,device_serial,charger_serial_number,model, du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) ";
+	$stmt = "SELECT id,asset_number,brand,laptop_serial,charger_serial_number,model, du.user_name as used_by from device_pc dp inner join device_users du on (dp.used_by = du.device_user_id) ";
 	if(isset($_POST["onlyStock"])){
 		$stmt .= "where dp.used_by = 0";
 	}
@@ -135,9 +135,9 @@ if(isset($_POST["getdata_updatepage_loan"])){
 		$editicon = '<span style="cursor:pointer;" onclick="getFieldsForUpdate_loan('.$id.')">&#x2692;';
 		$response['data'][] = array(
 			$row['id'],
-			$row['device_id'],
+			$row['asset_number'],
 			$row['brand'],
-			$row['device_serial'],
+			$row['laptop_serial'],
 			$row['charger_serial_number'],
 			$row['model'],
 			$row['used_by'],
@@ -314,25 +314,53 @@ if(isset($_POST["updaterow_loan_od"])){
 
 }
 
+function _checkIfPresent($paramVar){
+	return (isset($_POST[$paramVar]) && !empty($_POST[$paramVar]) ) ;
+}
 
+function _attachInput($paramOriginalArr,$paramVar){
+	if(_checkIfPresent($paramVar)){
+		$paramOriginalArr[$paramVar] = $_POST[$paramVar];
+	}
+	return $paramOriginalArr;
+}
 
+function _addSql($paramSql,$paramVar){
+	if(_checkIfPresent($paramVar)){
+		$paramSql .= ', ' . $paramVar . '=:' . $paramVar;
+	}
+	return $paramSql;
+}
 
 if(isset($_POST["btn_submit_pc"])){
 	try{
 		$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
 		$row = [
-			'dev_id'=>$_POST["device_id"],
+			'asset_number'=>$_POST["asset_number"],
 			'brand_'=>$_POST["brand"],
-			'serial_'=>$_POST["device_serial"],
-			'cpu_'=>$_POST["cpu"],
-			'ram_'=>$_POST["ram"],
-			'charger'=>$_POST["charger_serial"],
-			'hd_'=>$_POST["harddisk_capacity"],
-			'model_'=>$_POST["model"],
-			'os_'=>$_POST["os"]
+			'tag'=>$_POST["tag"],
+			'laptop_serial'=>$_POST["laptop_serial"],			
+			'processor'=>$_POST["processor"],
+			'ram'=>$_POST["ram"],
+			'charger_serial_number'=>$_POST["charger_serial_number"],
+			'hard_disk_capacity'=>$_POST["harddisk_capacity"],
+			'model'=>$_POST["model"],
+			'os'=>$_POST["os"],
+
 		];
-		$sqlstmt="INSERT INTO device_pc SET device_id=:dev_id, brand=:brand_, device_serial=:serial_,cpu=:cpu_, ram=:ram_, charger_serial_number=:charger, hard_disk_capacity=:hd_, model=:model_, os=:os_;";
-		$status = $pdo->prepare($sqlstmt)->execute($row);
+
+		$row = _attachInput($row,'mouse_serial');
+		$row = _attachInput($row,'battery_keyboard_serial');
+		$row = _attachInput($row,'bag_details');
+		$row = _attachInput($row,'remarks');
+
+
+		$sql="INSERT INTO device_pc SET asset_number=:asset_number, brand=:brand_, tag=:tag, laptop_serial=:laptop_serial,processor=:processor, ram=:ram, charger_serial_number=:charger_serial_number, hard_disk_capacity=:hard_disk_capacity, model=:model, os=:os";
+		$sql = _addSql($sql,'mouse_serial');
+		$sql = _addSql($sql,'battery_keyboard_serial');
+		$sql = _addSql($sql,'bag_details');
+		$sql = _addSql($sql,'remarks');
+		$status = $pdo->prepare($sql)->execute($row);
 	}
 	catch (PDOException $e){
 		$status =false;
@@ -345,6 +373,7 @@ if(isset($_POST["btn_submit_pc"])){
 		$_SESSION['add_status'] = "Success! Insert Success";
 	}
 	else {
+
 		$_SESSION['add_status'] = "There was an error inserting.. troubleshoot!";
 	}
 }
