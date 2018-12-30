@@ -80,24 +80,29 @@ DROP TABLE IF EXISTS `device_pc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `device_pc` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `device_id` varchar(20) NOT NULL,
+  `asset_number` varchar(25) NOT NULL,
+  `tag` varchar(25) NOT NULL,
   `brand` varchar(20) NOT NULL,
-  `device_serial` varchar(30) NOT NULL,
-  `cpu` varchar(20) NOT NULL,
   `ram` varchar(10) NOT NULL,
+  `processor` varchar(20) NOT NULL,
+  `laptop_serial` varchar(30) NOT NULL,
   `charger_serial_number` varchar(30) NOT NULL,
   `hard_disk_capacity` varchar(10) NOT NULL,
   `model` varchar(20) NOT NULL,
   `os` varchar(20) NOT NULL,
+  `mouse_serial` varchar(30) NOT NULL,
+  `bag_details` varchar(64) NOT NULL,
+  `battery_keyboard_serial` varchar(25) NOT NULL,
+  `remarks` text NOT NULL,
   `used_by` int(11) NOT NULL,
-  PRIMARY KEY (`device_id`),
-  UNIQUE KEY `device_serial` (`device_serial`),
+  PRIMARY KEY (`asset_number`),
+  UNIQUE KEY `device_serial` (`laptop_serial`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `device_id` (`device_id`),
+  UNIQUE KEY `device_id` (`asset_number`),
   UNIQUE KEY `charger_serial_number` (`charger_serial_number`),
   KEY `user_by_fk` (`used_by`),
   CONSTRAINT `user_by_fk` FOREIGN KEY (`used_by`) REFERENCES `device_users` (`device_user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +111,7 @@ CREATE TABLE `device_pc` (
 
 LOCK TABLES `device_pc` WRITE;
 /*!40000 ALTER TABLE `device_pc` DISABLE KEYS */;
-INSERT INTO `device_pc` VALUES (46,'desktop_01','custom build','dv 3863973','i3 4th Gen','8GB','not applicable','500 GB','custom build','win/linux',0),(19,'id_03','hp','hp 73618','i3 5th Gen','4GB','charger 473','1TB','mid range','win',1),(18,'laptop_02','asus ','asus 3874','i5 7th Gen','4GB','charger 7684','1 TB','asus gaming','win',7),(1,'pc_01','dell','dell 678574853','i5 3rd gen','4GB','dell charger 675','500GB','lattitude E4352','win',8);
+INSERT INTO `device_pc` VALUES (47,'afsd','sdaf','asf','sadf','sdf','saf','sdf','saf','safd','sadf','sadf','sf','sadf','fas',0),(46,'desktop_01','fsd','custom build','8GB','i3 4th Gen','dv 3863973','not applicable','500 GB','custom build','win/linux','','','','new',0),(19,'id_03','fsd','hp','4GB','i3 5th Gen','hp 73618','charger 473','1TB','mid range','win','','','','dasf',1),(18,'laptop_02','fff','asus ','4GB','i5 7th Gen','asus 3874','charger 7684','1 TB','asus gaming','win','sfdsd','sdfdsf','sdfsd','fff',7),(1,'pc_01','sadf','dell','4GB','i5 3rd gen','dell 678574853','dell charger 675','500GB','lattitude E4352','win','sdfasdf','sfd','sdf','sadf',8);
 /*!40000 ALTER TABLE `device_pc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,4 +181,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-16 23:03:30
+-- Dump completed on 2018-12-30 17:39:15
