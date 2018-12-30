@@ -125,12 +125,16 @@ DROP TABLE IF EXISTS `device_users`;
 CREATE TABLE `device_users` (
   `device_user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(15) NOT NULL,
+  `email_id` varchar(75) NOT NULL,
+  `r_team_id` int(11) NOT NULL DEFAULT '0',
   `r_branch_id` int(11) NOT NULL,
   PRIMARY KEY (`device_user_id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `device_users_fk` (`r_branch_id`),
   KEY `device_user_id` (`device_user_id`),
-  CONSTRAINT `device_users_fk` FOREIGN KEY (`r_branch_id`) REFERENCES `branch` (`branch_id`)
+  KEY `team_fkkey` (`r_team_id`),
+  CONSTRAINT `device_users_fk` FOREIGN KEY (`r_branch_id`) REFERENCES `branch` (`branch_id`),
+  CONSTRAINT `team_fkkey` FOREIGN KEY (`r_team_id`) REFERENCES `team` (`team_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -140,8 +144,33 @@ CREATE TABLE `device_users` (
 
 LOCK TABLES `device_users` WRITE;
 /*!40000 ALTER TABLE `device_users` DISABLE KEYS */;
-INSERT INTO `device_users` VALUES (0,'',0),(1,'Gopinath',2),(3,'BluePie',1),(4,'frostin',1),(6,'waffle',0),(7,'iss374',1),(8,'iss374/gopinath',2),(10,'friend',0);
+INSERT INTO `device_users` VALUES (0,'','',0,0),(1,'Gopinath','gopianth2nr@gmail.com',0,1),(3,'BluePie','iambluepie@gmail.com',0,1),(4,'frostin','iamfr0st1n@gmail.com',1,1),(6,'waffle','waffle@gamil.com',0,0),(7,'iss374','',0,1),(8,'iss374/gopinath','',0,2),(10,'friend','',0,0);
 /*!40000 ALTER TABLE `device_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team`
+--
+
+DROP TABLE IF EXISTS `team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team` (
+  `team_no` int(11) NOT NULL AUTO_INCREMENT,
+  `teamName` varchar(32) NOT NULL,
+  `team_description` varchar(75) NOT NULL,
+  PRIMARY KEY (`team_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `team`
+--
+
+LOCK TABLES `team` WRITE;
+/*!40000 ALTER TABLE `team` DISABLE KEYS */;
+INSERT INTO `team` VALUES (0,'',''),(1,'grouprm','grm...');
+/*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -168,7 +197,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','$2y$10$mYxAnh8AQb3Mn2Oi0UETmusRJ85ANHRDwfWijJciXn358u9ZYHr.2','2018-12-15 18:17:37',1),(7,'bluepie','$2y$10$YCyXgPaTOUB2rdREhCdvCexNVkU9oq/WazP1BetOYi.j5GHghl2Xu','0000-00-00 00:00:00',1),(2,'gopi','$2y$10$.O2MhcglGlBixD01lu8VX.N.lXyTrYpfKcqFRBVzQl53Y7MXTuNaC','2018-07-06 09:06:35',1),(11,'paarnica','$2y$10$D5Bw6KSXXyLp26DF0PMIMukROzEegYOdefc7Np32EgF.qHpn.B0CW','0000-00-00 00:00:00',1);
+INSERT INTO `users` VALUES (1,'admin','$2y$10$mYxAnh8AQb3Mn2Oi0UETmusRJ85ANHRDwfWijJciXn358u9ZYHr.2','2018-12-30 18:40:05',1),(7,'bluepie','$2y$10$YCyXgPaTOUB2rdREhCdvCexNVkU9oq/WazP1BetOYi.j5GHghl2Xu','0000-00-00 00:00:00',1),(2,'gopi','$2y$10$.O2MhcglGlBixD01lu8VX.N.lXyTrYpfKcqFRBVzQl53Y7MXTuNaC','2018-07-06 09:06:35',1),(11,'paarnica','$2y$10$D5Bw6KSXXyLp26DF0PMIMukROzEegYOdefc7Np32EgF.qHpn.B0CW','0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -181,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-30 17:39:15
+-- Dump completed on 2018-12-30 18:44:48

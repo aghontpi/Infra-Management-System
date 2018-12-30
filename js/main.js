@@ -126,7 +126,7 @@ function updateitemsDisplay(){
 			table_update_del_other_device.destroy();
 			table_update_del_other_device=0;
 		}
-		const tableHeadings = ['id','asset_number','tag', 'brand','ram','processor','laptop_serial','charger_serial','HD_capacity','model','os','mouse_serial','bag_details','battery/keyboard serial','remarks','used_by'];
+		const tableHeadings = ['id','asset_number','tag', 'brand','ram','processor','laptop_serial','charger_serial','HD_capacity','model','os','mouse_serial','bag_details','battery/keyboard serial','remarks','Edit'];
 		showTable(createTableHeadings(tableHeadings));
 		table_update_del_device_pc = $('#table_here').DataTable({
 			"ajax":{
@@ -522,7 +522,7 @@ Section below for new requirements.
 */
 function getDeviceUsers(){
 	const payload = { "getDeviceUsers": 1 };
-	const tableHeadings = ['Serial','Users','Branch', 'Action']
+	const tableHeadings = ['Serial','Users','Email','team','Branch', 'Action']
 
 	if(DTtable){
 		destroyDataTable();
