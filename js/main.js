@@ -105,7 +105,7 @@ else if(temp == "device_other"){
 function getAttributes_to_add(){
 var temp = $("#addDevice option:selected").val();if(temp == "pc"){
 	$("#fields_container").empty();
-	$("#fields_container").append('<div class="base"> <div> <form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Asset Numer:</label> <input name="asset_number" placeholder="Enter asset number(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="brand-label">Tag:</label> <input type="text" name="tag" placeholder="Enter Tag" required> <br> <br> <label id="serial-label">Laptop Serial:</label> <input type="text" name="laptop_serial" placeholder="Laptop Serial(Unique)" required> <br> <br> <label id="serial-label">Mouse Serial:</label> <input type="text" name="mouse_serial" placeholder="Mouse Serial(Unique)"> <br> <br> <label id="cpu-label">Processor:</label> <input type="text" name="processor" placeholder="processor" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial_number" placeholder="Charger Serial(Unique)"> <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <label id="serial-label">Batt/keyboard SNO:</label> <input type="text" name="battery_keyboard_serial" placeholder="Battery/keyboard serial number"> <br> <br> <label id="serial-label">Bag details:</label> <input type="text" name="bag_details" placeholder="Bag details"> <br> <br> <label id="user-label">User:</label> <input type="text" id="addItemsUser" name="device_user" placeholder="Type here o autofill"> <br> <br> <label id="user-label">Remarks:</label> <input type="text" id="addItemsUser" name="remarks" placeholder="Enter remarks"> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button> </form> </div> </div>');	
+	$("#fields_container").append('<div class="base"> <div> <form id="survey-form" method="post" action="worker.php"> <label id="deviceid-label">Asset Numer:</label> <input name="asset_number" placeholder="Enter asset number(unique)" autofocus required> <br> <br> <label id="brand-label">Brand:</label> <input type="text" name="brand" placeholder="Enter Brand" required> <br> <br> <label id="brand-label">Tag:</label> <input type="text" name="tag" placeholder="Enter Tag" required> <br> <br> <label id="serial-label">Laptop Serial:</label> <input type="text" name="laptop_serial" placeholder="Laptop Serial(Unique)" required> <br> <br> <label id="serial-label">Mouse Serial:</label> <input type="text" name="mouse_serial" placeholder="Mouse Serial(Unique)"> <br> <br> <label id="cpu-label">Processor:</label> <input type="text" name="processor" placeholder="processor" required> <br> <br> <label id="ram-label">Ram:</label> <input type="text" name="ram" placeholder="ram" required> <br> <br> <label id="charger_serial-label">Charger Serial:</label> <input type="text" name="charger_serial_number" placeholder="Charger Serial(Unique)"> <br> <br> <label id="HD-label">Hard Disk Capacity:</label> <input type="text" name="harddisk_capacity" placeholder="Hard Disk Capacity" required> <br> <br> <label id="model-label">Model:</label> <input type="text" name="model" placeholder="pc/lap model" required> <br> <br> <label id="os-label">OS:</label> <input type="text" name="os" placeholder="os installed" required> <br> <br> <label id="serial-label">Batt/keyboard SNO:</label> <input type="text" name="battery_keyboard_serial" placeholder="Battery/keyboard serial number"> <br> <br> <label id="serial-label">Bag details:</label> <input type="text" name="bag_details" placeholder="Bag details"> <br> <br> <label id="user-label">User:</label> <input type="text" id="addItemsUser" name="device_user" placeholder="Type here o autofill"> <button id="addItemsNewUserBtn" onclick="addNewUserFromItemPage()" name="" value="" class="themebtn ml-20">Or Create User</button><br> <br> <label id="user-label">Remarks:</label> <input type="text" id="" name="remarks" placeholder="Enter remarks"> <br> <br> <button id="submit" type="submit" name="btn_submit_pc" value="submit" class="btn-submit">Submit</button> </form> </div> </div>');	
 	userAutoComplete("#addItemsUser");
 }
 else if(temp =="device"){
@@ -267,23 +267,28 @@ function getFieldsForUpdate_loan(id){
 
 }
 
-function userAutoComplete(paramElement){	
-	$(paramElement).autocomplete({
-		source:function(req,res){
-		$.ajax({
-			url:"worker.php",
-			dataType:"json",
-			data:{"userL":req.term},
-			success:function(x){
-				console.log(x);
-				res(x);
-
-			}
-		});
-		},
-		minLength:2
-	});
+function userAutoComplete(paramElement){
+	return autoCompleteTemplate(paramElement,"userL");
 }
+
+function autoCompleteTemplate(paramElement,paramPayload){
+	$(paramElement).autocomplete({
+	source:function(req,res){
+		$.ajax({
+		url:"worker.php",
+		dataType:"json",
+		data:{[paramPayload]:req.term},
+		success:function(x){
+			console.log(x);
+			res(x);
+
+		}
+	});
+	},
+	minLength:2
+});
+}
+
 function deleteFieldsForUpdate(id){
 	if (confirm("Are you sure to delete!!")) {
 		$.ajax({
@@ -638,16 +643,16 @@ function afterUserMappingCallback(paramStatus,successMsg="User Was Mapped",failu
 }
 
 function addDeviceUser(){
-	var blob = '<form><br><label style = "display:inline-block" class="ml-20" >Name/id</label><input type="text" id="device_user_name" placeholder="Enter name/id" style = "display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"></form>';
+	var blob = '<form><br><label style="display:inline-block" class="ml-20">Name/id</label><input type="text" id="device_user_name" placeholder="Enter name/id" style="display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"><br><br><label style="display:inline-block" class="ml-20">Email</label><input type="text" id="device_user_email" placeholder="Enter Email" style="display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"><br><br><label style="display:inline-block" class="ml-20">Branch</label><input type="text" id="device_user_branch" placeholder="Enter branch" style="display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"><br><br><label style="display:inline-block" class="ml-20">Team</label><input type="text" id="device_user_team" placeholder="Enter Team" style="display:inline-block;background-color:white!important;color:black!important;width:auto;" class="ml-20 text ui-widget-content ui-corner-all generic_search"></form>';
 	createDialog("Add User",null,blob,"dialog-form");
-	formDialogTrigger();
+	formDialogTrigger('auto');
 }
 
-function formDialogTrigger(){
+function formDialogTrigger(height = 200, width = 350){
 	form_dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
-      height: 200,
-      width: 350,
+      height: height,
+      width: width,
       modal: true,
       buttons: {
         "Create User": cDU
@@ -662,11 +667,16 @@ function formDialogTrigger(){
       cDU();
     });
     form_dialog.dialog( "open" );
+    $("#device_user_branch").autocomplete({"source":Branches});
+    autoCompleteTemplate("#device_user_team","Lteam");
 }
 
 function cDU(){
 	var deviceUserName = $("#device_user_name").val();
-	var payload = {"nDeviceUser":deviceUserName};
+	var deviceUserEmail = $("#device_user_email").val();
+	var deviceUserBranch = $("#device_user_branch").val();
+	var deviceUserTeam = $("#device_user_team").val();
+	var payload = {"nDeviceUser":deviceUserName,"nUserEmail":deviceUserEmail,"nUserBranch":deviceUserBranch,"nUserTeam":deviceUserTeam};
 	if(!deviceUserName && deviceUserName == ""){
 		createDialog("Error","Please Enter something.");
 		triggerDialog();
@@ -717,6 +727,11 @@ function ManageDevices(paramType){
 			]
 		});
 }
+
+function addNewUserFromItemPage(){
+	addDeviceUser();
+}
+
 
 /*
 dont enable untill tooltip is fixed

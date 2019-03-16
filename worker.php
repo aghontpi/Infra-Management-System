@@ -360,6 +360,11 @@ if(isset($_POST["btn_submit_pc"])){
 		$sql = _addSql($sql,'battery_keyboard_serial');
 		$sql = _addSql($sql,'bag_details');
 		$sql = _addSql($sql,'remarks');
+
+		if(_checkIfPresent("device_user")){
+			$row = _attachInput($row,'device_user');
+			$sql .= ", used_by = (select device_user_id from device_users where user_name =:device_user)";
+		}
 		$status = $pdo->prepare($sql)->execute($row);
 	}
 	catch (PDOException $e){
@@ -451,8 +456,8 @@ if(isset($_POST['nDeviceUser'])){
 	$status = 0;
 	try{
 		$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
-		$data =["user" => $_POST['nDeviceUser']];
-		$sql ="INSERT INTO device_users SET device_user_id=0, user_name=:user, r_branch_id=0";
+		$data =["user" => $_POST['nDeviceUser'], "email" => $_POST['nUserEmail'], "branch" =>  $_POST['nUserBranch'], "team" =>  $_POST['nUserTeam']];
+		$sql ="INSERT INTO device_users SET device_user_id=0, user_name=:user, email_id=:email, r_team_id = (select team_no from team where teamName =:team limit 1), r_branch_id=(select branch_id from branch where branch_name =:branch limit 1)";
 		$status = $pdo->prepare($sql)->execute($data);
 	}
 	catch (PDOException $e){
@@ -469,5 +474,13 @@ if(isset($_GET['userL'])){
 	$qres=$pdo->query($sql);
 	$res = $qres->fetchall(PDO::FETCH_ASSOC);
 	echo json_encode(array_column($res,'user_name'));
+}
+if(isset($_GET['Lteam'])){
+	$userQuery = $_GET['Lteam'];
+	$pdo = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+	$sql ="SELECT teamName from team where teamName LIKE '%{$userQuery}%'";
+	$qres=$pdo->query($sql);
+	$res = $qres->fetchall(PDO::FETCH_ASSOC);
+	echo json_encode(array_column($res,'teamName'));
 }
 ?>
