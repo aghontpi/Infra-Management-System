@@ -1,6 +1,13 @@
 # PHP - infrastructure management system
 > Adding, removing, updating, deleting, assigning device to users, register user, activate account...
 
+[![release][release badge]][release link] ![license][license badge]
+
+
+[release badge]: https://img.shields.io/github/v/release/gopinath001/php-Infra-Management-System?color=bright-green&include_prereleases&label=latest%20release
+[release link]: https://github.com/Gopinath001/php-Infra-Management-System/releases
+[license badge]: https://img.shields.io/github/license/gopinath001/php-Infra-Management-System
+
 
 ## Getting Started & Why
 
