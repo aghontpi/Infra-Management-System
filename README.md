@@ -4,14 +4,14 @@
 [![release][release badge]][release link] ![license][license badge]
 
 
-[release badge]: https://img.shields.io/github/v/release/gopinath001/php-Infra-Management-System?color=bright-green&include_prereleases&label=latest%20release
-[release link]: https://github.com/Gopinath001/php-Infra-Management-System/releases
-[license badge]: https://img.shields.io/github/license/gopinath001/php-Infra-Management-System
+[release badge]: https://img.shields.io/github/v/release/aghontpi/php-Infra-Management-System?color=bright-green&include_prereleases&label=latest%20release
+[release link]: https://github.com/aghontpi/php-Infra-Management-System/releases
+[license badge]: https://img.shields.io/github/license/aghontpi/php-Infra-Management-System
 
 
 ## Getting Started & Why
 
-Did this as a mini project for some reason.. this is my first (basic level) php project, i'm not a php expert, code is slopy here and there.
+Did this as a mini project.. this is my first (basic level) php project, At the time of creating this small project, i was just a beginner in PHP, code is slopy here and there.
 
 Tried different things with php because to have a learning curve and also why not, one of the reasons code and design being not consistent.
 
@@ -21,7 +21,7 @@ Tried different things with php because to have a learning curve and also why no
 
 Server with php running, use the dump.sql file first!!
 
-Have a Demo live [Demo](http://bluepie.live/infra) 
+~~Have a Demo live [link removed]~~
 
 its a simple passowrd you can guess it.. (or dm me on twitter for passowrd.. )
 
@@ -42,10 +42,10 @@ it wont work on anything online... just a heads up._
 
 ## Authors
 
-* **Gopinath (aka) BluePie** [Gopinath001](https://github.com/Gopinath001)
+* **aghontpi (aka) BluePie** [aghontpi](https://github.com/aghontpi)
 
 
 ## Meta
 
-Gopinath (aka) bluepie – [@bluepie](https://twitter.com/xbluepie) – gopinath2nr@gmail.com
+Gopinath (aka) bluepie – [@bluepie](https://twitter.com/aghontpi) – aghontpi@gmail.com
 
